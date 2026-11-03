@@ -1,11 +1,17 @@
 import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/screens/add_expense_screen.dart';
 import 'package:expense_tracker/widgets/expense_item.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
-  final List<Expense> expenses = [
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final List<Expense> _expenses = [
     Expense(
       title: 'groceries',
       amountCents: 1270,
@@ -43,8 +49,21 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Expense Tracker')),
       body: ListView.builder(
-        itemCount: expenses.length,
-        itemBuilder: (ctx, index) => ExpenseItem(expense: expenses[index]),
+        itemCount: _expenses.length,
+        itemBuilder: (ctx, index) => ExpenseItem(expense: _expenses[index]),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final newExpense = await Navigator.push<Expense>(
+            context,
+            MaterialPageRoute(builder: (context) => const AddExpenseScreen()),
+          );
+          if (!mounted || newExpense == null) return;
+          setState(() {
+            _expenses.add(newExpense);
+          });
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
