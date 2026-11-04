@@ -33,4 +33,23 @@ class Expense {
   final int amountCents;
   final DateTime date;
   final ExpenseCategory category;
+
+  Map<String, Object?> toMap() {
+    return {
+      'title': title,
+      'amount_cents': amountCents,
+      'date': date.toIso8601String(),
+      'category': category.name,
+    };
+  }
+
+  factory Expense.fromMap(Map<String, Object?> map) {
+    return Expense(
+      id: map['id'] as int,
+      title: map['title'] as String,
+      amountCents: map['amount_cents'] as int,
+      date: DateTime.parse(map['date'] as String),
+      category: ExpenseCategory.values.byName(map['category'] as String),
+    );
+  }
 }
