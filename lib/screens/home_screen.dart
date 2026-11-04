@@ -26,9 +26,19 @@ class HomeScreen extends ConsumerWidget {
                   direction: DismissDirection.endToStart,
                   background: Container(
                     padding: const EdgeInsets.only(right: 20),
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
                     alignment: Alignment.centerRight,
-                    color: Theme.of(context).colorScheme.error,
-                    child: const Icon(Icons.delete),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.error,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Icon(
+                      Icons.delete,
+                      color: Theme.of(context).colorScheme.onError,
+                    ),
                   ),
                   confirmDismiss: (direction) => showDialog<bool>(
                     context: context,
