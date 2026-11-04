@@ -1,54 +1,73 @@
-import 'package:expense_tracker/database/expenses_database.dart';
 import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/providers/expenses_provider.dart';
 import 'package:expense_tracker/screens/add_expense_screen.dart';
 import 'package:expense_tracker/widgets/expense_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final expensesAsync = ref.watch(expensesProvider);
 
-class _HomeScreenState extends State<HomeScreen> {
-  List<Expense> _expenses = [];
-
-  Future<void> _loadExpenses() async {
-    final list = await ExpensesDatabase.getExpenses();
-    if (!mounted) return;
-    setState(() {
-      _expenses = list;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _loadExpenses();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Expense Tracker')),
-      body: _expenses.isEmpty
-          ? const Center(child: Text('No expenses yet, tap + to add one'))
-          : ListView.builder(
-              itemCount: _expenses.length,
-              itemBuilder: (ctx, index) =>
-                  ExpenseItem(expense: _expenses[index]),
-            ),
+      body: expensesAsync.when(
+        error: (error, stack) => Center(child: Text('Error $error')),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        data: (expenses) => expenses.isEmpty
+            ? const Center(child: Text('No expenses yet, tap + to add one'))
+            : ListView.builder(
+                itemCount: expenses.length,
+                itemBuilder: (ctx, index) => Dismissible(
+                  key: ValueKey(expenses[index].id),
+                  direction: DismissDirection.endToStart,
+                  background: Container(
+                    padding: const EdgeInsets.only(right: 20),
+                    alignment: Alignment.centerRight,
+                    color: Theme.of(context).colorScheme.error,
+                    child: const Icon(Icons.delete),
+                  ),
+                  confirmDismiss: (direction) => showDialog<bool>(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: const Text('Delete expense?'),
+                      content: const Text(
+                        'Are you sure you want to delete this expense?',
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(ctx, false);
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(ctx, true);
+                          },
+                          child: const Text('Delete'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onDismissed: (direction) => ref
+                      .read(expensesProvider.notifier)
+                      .removeExpense(expenses[index].id!),
+                  child: ExpenseItem(expense: expenses[index]),
+                ),
+              ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final newExpense = await Navigator.push<Expense>(
             context,
             MaterialPageRoute(builder: (context) => const AddExpenseScreen()),
           );
-          if (!mounted || newExpense == null) return;
-          await ExpensesDatabase.insertExpense(newExpense);
-          if (!mounted) return;
-          await _loadExpenses();
+          if (!context.mounted || newExpense == null) return;
+          ref.read(expensesProvider.notifier).addExpense(newExpense);
         },
         child: const Icon(Icons.add),
       ),
