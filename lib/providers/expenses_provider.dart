@@ -24,6 +24,15 @@ class ExpensesNotifier extends AsyncNotifier<List<Expense>> {
     state = AsyncData(finalList);
     await ExpensesDatabase.deleteExpense(id);
   }
+
+  Future<void> updateExpense(Expense expense) async {
+    await ExpensesDatabase.updateExpense(expense);
+    final current = state.value ?? [];
+    final updatedList =
+        current.map((e) => e.id == expense.id ? expense : e).toList()
+          ..sort((a, b) => b.date.compareTo(a.date));
+    state = AsyncData(updatedList);
+  }
 }
 
 final expensesProvider = AsyncNotifierProvider<ExpensesNotifier, List<Expense>>(

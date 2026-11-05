@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AddExpenseScreen extends StatefulWidget {
-  const AddExpenseScreen({super.key});
+  const AddExpenseScreen({super.key, this.expense});
+
+  final Expense? expense;
 
   @override
   State<AddExpenseScreen> createState() {
@@ -13,10 +15,24 @@ class AddExpenseScreen extends StatefulWidget {
 
 class _AddExpenseScreenState extends State<AddExpenseScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _titleController = TextEditingController();
-  final _amountController = TextEditingController();
-  ExpenseCategory _selectedCategory = ExpenseCategory.food;
-  DateTime _selectedDate = DateTime.now();
+  late final TextEditingController _titleController;
+  late final TextEditingController _amountController;
+  late ExpenseCategory _selectedCategory;
+  late DateTime _selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    final expense = widget.expense;
+    _titleController = TextEditingController(text: expense?.title);
+    _amountController = TextEditingController(
+      text: expense == null
+          ? null
+          : (expense.amountCents / 100).toStringAsFixed(2),
+    );
+    _selectedCategory = expense?.category ?? ExpenseCategory.food;
+    _selectedDate = expense?.date ?? DateTime.now();
+  }
 
   double? _parseAmount(String? text) {
     return double.tryParse((text ?? '').replaceAll(',', '.'));
@@ -27,7 +43,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     final pickedDate = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
-      firstDate: DateTime(now.year - 6, now.month, now.day),
+      firstDate: DateTime(2000),
       lastDate: now,
     );
     if (!mounted || pickedDate == null) return;
@@ -44,6 +60,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     final amount = _parseAmount(_amountController.text)!;
     Navigator.of(context).pop(
       Expense(
+        id: widget.expense?.id,
         title: _titleController.text.trim(),
         amountCents: (amount * 100).round(),
         date: _selectedDate,
@@ -62,7 +79,11 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Expense')),
+      appBar: AppBar(
+        title: Text(
+          widget.expense == null ? 'Add Expense' : 'Edit Expense',
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(

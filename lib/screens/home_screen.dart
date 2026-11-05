@@ -74,7 +74,22 @@ class HomeScreen extends ConsumerWidget {
                         onDismissed: (direction) => ref
                             .read(expensesProvider.notifier)
                             .removeExpense(expenses[index].id!),
-                        child: ExpenseItem(expense: expenses[index]),
+                        child: ExpenseItem(
+                          expense: expenses[index],
+                          onTap: () async {
+                            final updated = await Navigator.push<Expense>(
+                              context,
+                              MaterialPageRoute(
+                                builder: (ctx) =>
+                                    AddExpenseScreen(expense: expenses[index]),
+                              ),
+                            );
+                            if (!context.mounted || updated == null) return;
+                            ref
+                                .read(expensesProvider.notifier)
+                                .updateExpense(updated);
+                          },
+                        ),
                       ),
                     ),
             ),

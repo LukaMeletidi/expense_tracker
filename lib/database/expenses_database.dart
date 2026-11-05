@@ -41,4 +41,14 @@ class ExpensesDatabase {
     final db = await _getDatabase();
     await db.delete('expenses', where: 'id = ?', whereArgs: [id]);
   }
+
+  static Future<void> updateExpense(Expense expense) async {
+    final db = await _getDatabase();
+    await db.update(
+      'expenses',
+      expense.toMap(),
+      where: 'id = ?',
+      whereArgs: [expense.id],
+    );
+  }
 }
