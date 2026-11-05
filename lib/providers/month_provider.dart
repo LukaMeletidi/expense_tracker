@@ -42,6 +42,17 @@ final monthExpensesProvider = Provider<AsyncValue<List<Expense>>>((ref) {
 
 final monthTotalProvider = Provider<int>((ref) {
   final expenses = ref.watch(monthExpensesProvider).value ?? [];
-  
+
   return expenses.fold(0, (sum, expense) => sum + expense.amountCents);
+});
+
+final categoryTotalsProvider = Provider<Map<ExpenseCategory, int>>((ref) {
+  final expenses = ref.watch(monthExpensesProvider).value ?? [];
+  final totals = <ExpenseCategory, int>{};
+  for (final expense in expenses) {
+    totals[expense.category] =
+        (totals[expense.category] ?? 0) + expense.amountCents;
+  }
+
+  return totals;
 });
