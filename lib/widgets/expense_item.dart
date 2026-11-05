@@ -1,4 +1,5 @@
 import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/utils/format.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -32,7 +33,7 @@ class ExpenseItem extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 20),
-            Text('${(expense.amountCents / 100).toStringAsFixed(2)} \$'),
+            Text(formatCents(expense.amountCents)),
           ],
         ),
       ),

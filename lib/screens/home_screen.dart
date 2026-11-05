@@ -4,6 +4,7 @@ import 'package:expense_tracker/providers/month_provider.dart';
 import 'package:expense_tracker/screens/add_expense_screen.dart';
 import 'package:expense_tracker/widgets/expense_item.dart';
 import 'package:expense_tracker/widgets/month_selector.dart';
+import 'package:expense_tracker/widgets/month_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,6 +20,7 @@ class HomeScreen extends ConsumerWidget {
       body: Column(
         children: [
           const MonthSelector(),
+          const MonthSummary(),
           Expanded(
             child: expensesAsync.when(
               error: (error, stack) => Center(child: Text('Error $error')),

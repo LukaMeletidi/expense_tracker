@@ -39,3 +39,9 @@ final monthExpensesProvider = Provider<AsyncValue<List<Expense>>>((ref) {
         .toList();
   });
 });
+
+final monthTotalProvider = Provider<int>((ref) {
+  final expenses = ref.watch(monthExpensesProvider).value ?? [];
+  
+  return expenses.fold(0, (sum, expense) => sum + expense.amountCents);
+});
