@@ -1,5 +1,6 @@
 import 'package:expense_tracker/providers/month_provider.dart';
 import 'package:expense_tracker/utils/format.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,34 +24,73 @@ class CategoryBreakdown extends ConsumerWidget {
               ),
             ),
           )
-        : ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: entries.length,
-            itemBuilder: (context, index) {
-              final entry = entries[index];
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Column(
+        : Column(
+            children: [
+              SizedBox(
+                height: 200,
+                child: Stack(
                   children: [
-                    Row(
-                      children: [
-                        Icon(entry.key.icon),
-                        const SizedBox(width: 20),
-                        Expanded(child: Text(entry.key.label)),
-                        const SizedBox(width: 20),
-                        Text(formatCents(entry.value)),
-                      ],
+                    PieChart(
+                      PieChartData(
+                        sections: entries
+                            .map(
+                              (e) => PieChartSectionData(
+                                value: e.value.toDouble(),
+                                color: e.key.color,
+                                title: '${(e.value / total * 100).round()} %',
+                                radius: 40,
+                                titleStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
                     ),
-                    const SizedBox(height: 10),
-                    LinearProgressIndicator(
-                      minHeight: 8,
-                      borderRadius: BorderRadius.circular(4),
-                      value: entry.value / total,
+                    Center(
+                      child: Text(
+                        formatCents(total),
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ),
                   ],
                 ),
-              );
-            },
+              ),
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: entries.length,
+                  itemBuilder: (context, index) {
+                    final entry = entries[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Icon(entry.key.icon, color: entry.key.color),
+                              const SizedBox(width: 20),
+                              Expanded(child: Text(entry.key.label)),
+                              const SizedBox(width: 20),
+                              Text(formatCents(entry.value)),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          LinearProgressIndicator(
+                            color: entry.key.color,
+                            minHeight: 8,
+                            borderRadius: BorderRadius.circular(4),
+                            value: entry.value / total,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           );
   }
 }

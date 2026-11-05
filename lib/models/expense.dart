@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 
 enum ExpenseCategory {
-  food('Food', Icons.restaurant),
-  transport('Transport', Icons.subway),
-  shopping('Shopping', Icons.shopping_cart),
-  health('Health', Icons.health_and_safety),
-  sport('Sport', Icons.fitness_center),
-  education('Education', Icons.school),
-  entertainment('Entertainment', Icons.movie),
-  cafe('Cafe', Icons.local_cafe),
-  houseneeds('Houseneeds', Icons.house),
-  bills('Bills', Icons.receipt_long),
-  other('Other', Icons.more_horiz);
+  food('Food', Icons.restaurant, Colors.orange),
+  transport('Transport', Icons.subway, Colors.blue),
+  shopping('Shopping', Icons.shopping_cart, Colors.pink),
+  health('Health', Icons.health_and_safety, Colors.red),
+  sport('Sport', Icons.fitness_center, Colors.green),
+  education('Education', Icons.school, Colors.indigo),
+  entertainment('Entertainment', Icons.movie, Colors.purple),
+  cafe('Cafe', Icons.local_cafe, Colors.brown),
+  houseneeds('Houseneeds', Icons.house, Colors.teal),
+  bills('Bills', Icons.receipt_long, Colors.blueGrey),
+  other('Other', Icons.more_horiz, Colors.grey);
 
-  const ExpenseCategory(this.label, this.icon);
+  const ExpenseCategory(this.label, this.icon, this.color);
 
   final String label;
   final IconData icon;
+  final Color color;
 }
 
 class Expense {
