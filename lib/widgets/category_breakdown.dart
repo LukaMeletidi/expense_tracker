@@ -1,4 +1,4 @@
-import 'package:expense_tracker/providers/month_provider.dart';
+import 'package:expense_tracker/providers/period_provider.dart';
 import 'package:expense_tracker/utils/format.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ class CategoryBreakdown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final totals = ref.watch(categoryTotalsProvider);
-    final total = ref.watch(monthTotalProvider);
+    final total = ref.watch(periodTotalProvider);
     final entries = totals.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
 
