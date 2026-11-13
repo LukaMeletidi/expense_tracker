@@ -1,9 +1,9 @@
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/providers/expenses_provider.dart';
-import 'package:expense_tracker/providers/month_provider.dart';
+import 'package:expense_tracker/providers/period_provider.dart';
 import 'package:expense_tracker/screens/add_expense_screen.dart';
 import 'package:expense_tracker/widgets/expense_item.dart';
-import 'package:expense_tracker/widgets/month_selector.dart';
+import 'package:expense_tracker/widgets/period_selector.dart';
 import 'package:expense_tracker/widgets/month_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,20 +13,20 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final expensesAsync = ref.watch(monthExpensesProvider);
+    final expensesAsync = ref.watch(periodExpensesProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Expense Tracker')),
       body: Column(
         children: [
-          const MonthSelector(),
+          const PeriodSelector(),
           const MonthSummary(),
           Expanded(
             child: expensesAsync.when(
               error: (error, stack) => Center(child: Text('Error $error')),
               loading: () => const Center(child: CircularProgressIndicator()),
               data: (expenses) => expenses.isEmpty
-                  ? const Center(child: Text('No expenses this month'))
+                  ? const Center(child: Text('No expenses in this period'))
                   : ListView.builder(
                       itemCount: expenses.length,
                       itemBuilder: (ctx, index) => Dismissible(

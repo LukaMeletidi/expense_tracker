@@ -1,4 +1,4 @@
-import 'package:expense_tracker/providers/month_provider.dart';
+import 'package:expense_tracker/providers/period_provider.dart';
 import 'package:expense_tracker/utils/format.dart';
 import 'package:expense_tracker/widgets/category_breakdown.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ class MonthSummary extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final total = ref.watch(monthTotalProvider);
+    final total = ref.watch(periodTotalProvider);
 
     return Card(
       child: InkWell(
