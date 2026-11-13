@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const _seedColor = Color.fromARGB(255, 183, 56, 225);
+  static const _seedColor = Colors.indigo;
 
   static ThemeData _buildTheme(Brightness brightness) {
     final colorScheme = ColorScheme.fromSeed(
@@ -11,6 +11,7 @@ class AppTheme {
 
     return ThemeData(
       colorScheme: colorScheme,
+      scaffoldBackgroundColor: colorScheme.primaryContainer,
 
       appBarTheme: AppBarTheme(
         backgroundColor: colorScheme.primary,
