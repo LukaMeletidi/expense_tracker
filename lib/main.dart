@@ -1,4 +1,4 @@
-import 'package:expense_tracker/screens/home_screen.dart';
+import 'package:expense_tracker/screens/main_screen.dart';
 import 'package:expense_tracker/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +16,7 @@ class App extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
-      home: const HomeScreen(),
+      home: const MainScreen(),
     );
   }
 }
