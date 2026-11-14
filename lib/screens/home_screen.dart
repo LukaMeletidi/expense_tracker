@@ -2,13 +2,13 @@ import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/providers/expenses_provider.dart';
 import 'package:expense_tracker/providers/period_provider.dart';
 import 'package:expense_tracker/screens/add_expense_screen.dart';
+import 'package:expense_tracker/utils/day_label.dart';
 import 'package:expense_tracker/utils/group_by_date.dart';
 import 'package:expense_tracker/widgets/expense_item.dart';
 import 'package:expense_tracker/widgets/period_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:expense_tracker/widgets/category_breakdown.dart';
-import 'package:intl/intl.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -44,7 +44,7 @@ class HomeScreen extends ConsumerWidget {
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
                   child: Text(
-                    DateFormat('EEEE, d MMM').format(item),
+                    dayLabel(item, DateTime.now()),
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                 );
