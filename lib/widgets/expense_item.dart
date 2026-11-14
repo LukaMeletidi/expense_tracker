@@ -10,7 +10,6 @@ class ExpenseItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final formattedDate = DateFormat('d MMM y').format(expense.date);
 
     return Card(
       child: InkWell(
@@ -30,8 +29,6 @@ class ExpenseItem extends StatelessWidget {
                       expense.title,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    //const SizedBox(height: 10),
-                    //Text(formattedDate),
                   ],
                 ),
               ),
