@@ -58,36 +58,29 @@ class CategoryBreakdown extends ConsumerWidget {
                   ],
                 ),
               ),
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: entries.length,
-                  itemBuilder: (context, index) {
-                    final entry = entries[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: Column(
+              ...entries.map(
+                (entry) => Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  child: Column(
+                    children: [
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              Icon(entry.key.icon, color: entry.key.color),
-                              const SizedBox(width: 20),
-                              Expanded(child: Text(entry.key.label)),
-                              const SizedBox(width: 20),
-                              Text(formatCents(entry.value)),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          LinearProgressIndicator(
-                            color: entry.key.color,
-                            minHeight: 8,
-                            borderRadius: BorderRadius.circular(4),
-                            value: entry.value / total,
-                          ),
+                          Icon(entry.key.icon, color: entry.key.color),
+                          const SizedBox(width: 20),
+                          Expanded(child: Text(entry.key.label)),
+                          const SizedBox(width: 20),
+                          Text(formatCents(entry.value)),
                         ],
                       ),
-                    );
-                  },
+                      const SizedBox(height: 10),
+                      LinearProgressIndicator(
+                        color: entry.key.color,
+                        minHeight: 8,
+                        borderRadius: BorderRadius.circular(4),
+                        value: entry.value / total,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
