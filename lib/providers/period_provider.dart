@@ -1,6 +1,7 @@
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/period.dart';
 import 'package:expense_tracker/providers/expenses_provider.dart';
+import 'package:expense_tracker/utils/sum_by_category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PeriodNotifier extends Notifier<Period> {
@@ -43,12 +44,7 @@ final periodTotalProvider = Provider<int>((ref) {
 
 final categoryTotalsProvider = Provider<Map<int, int>>((ref) {
   final expenses = ref.watch(periodExpensesProvider).value ?? [];
-  final totals = <int, int>{};
-  for (final expense in expenses) {
-    totals[expense.categoryId] =
-        (totals[expense.categoryId] ?? 0) + expense.amountCents;
-  }
-  return totals;
+  return sumByCategory(expenses);
 });
 
 final categoryExpensesProvider =
