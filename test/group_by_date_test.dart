@@ -39,4 +39,21 @@ void main() {
       ]);
     });
   });
+  group('flattenByDate', () {
+    test('empty list gives empty list', () {
+      expect(flattenByDate([]), isEmpty);
+    });
+    test('puts the date before its expenses', () {
+      final a = makeExpense(DateTime(2026, 11, 13, 10, 0));
+      final b = makeExpense(DateTime(2026, 11, 13, 18, 30));
+      final c = makeExpense(DateTime(2026, 11, 12));
+      final items = flattenByDate([a, b, c]);
+      expect(items.length, 5);
+      expect(items[0], DateTime(2026, 11, 13));
+      expect(items[1], same(a));
+      expect(items[2], same(b));
+      expect(items[3], DateTime(2026, 11, 12));
+      expect(items[4], same(c));
+    });
+  });
 }

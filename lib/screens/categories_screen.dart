@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/providers/categories_provider.dart';
+import 'package:expense_tracker/screens/category_detail_screen.dart';
 import 'package:expense_tracker/screens/category_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,15 +76,14 @@ class CategoriesScreen extends ConsumerWidget {
                   child: Icon(category.icon, color: category.color),
                 ),
                 title: Text(category.name),
-                onTap: () async {
-                  final updated = await Navigator.push<Category>(
+                onTap: () {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => CategoryFormScreen(category: category),
+                      builder: (ctx) =>
+                          CategoryDetailScreen(categoryId: category.id!),
                     ),
                   );
-                  if (!context.mounted || updated == null) return;
-                  ref.read(categoriesProvider.notifier).updateCategory(updated);
                 },
               ),
             );

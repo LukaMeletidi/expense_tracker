@@ -50,3 +50,12 @@ final categoryTotalsProvider = Provider<Map<int, int>>((ref) {
   }
   return totals;
 });
+
+final categoryExpensesProvider =
+    Provider.family<AsyncValue<List<Expense>>, int>((ref, categoryId) {
+      final expensesAsync = ref.watch(periodExpensesProvider);
+      return expensesAsync.whenData(
+        (expenses) =>
+            expenses.where((e) => e.categoryId == categoryId).toList(),
+      );
+    });
