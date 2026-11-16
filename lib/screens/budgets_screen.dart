@@ -1,8 +1,9 @@
 import 'package:expense_tracker/models/budget.dart';
+import 'package:expense_tracker/models/period.dart';
 import 'package:expense_tracker/providers/budgets_provider.dart';
 import 'package:expense_tracker/providers/categories_provider.dart';
 import 'package:expense_tracker/screens/budget_form_screen.dart';
-import 'package:expense_tracker/utils/format.dart';
+import 'package:expense_tracker/widgets/budget_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,37 +26,86 @@ class BudgetsScreen extends ConsumerWidget {
               .where((b) => categoriesById[b.categoryId]?.isDeleted == false)
               .toList();
           if (visible.isEmpty) {
-            return const Center(child: Text('No budgets yet'));
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(32),
+                child: Text(
+                  'No budgets yet.\nTap + to set a monthly limit for a category',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
           }
           return ListView.builder(
             padding: const EdgeInsets.only(bottom: 80),
-            itemCount: visible.length,
+            itemCount: visible.length + 1,
             itemBuilder: (ctx, index) {
-              final budget = visible[index];
+              if (index == 0) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+                  child: Text(
+                    Period.current(PeriodType.month).label,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                );
+              }
+              final budget = visible[index - 1];
               final category = categoriesById[budget.categoryId]!;
               final spentCents = spent[budget.categoryId] ?? 0;
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: category.color.withAlpha(40),
-                  child: Icon(category.icon, color: category.color),
+              return Dismissible(
+                key: ValueKey(budget.id),
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  padding: const EdgeInsets.only(right: 20),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  alignment: Alignment.centerRight,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.error,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Icon(
+                    Icons.delete,
+                    color: Theme.of(context).colorScheme.onError,
+                  ),
                 ),
-                title: Text(category.name),
-                subtitle: Text(
-                  '${formatCents(spentCents)} of ${formatCents(budget.limitCents)}',
-                ),
-                onTap: () async {
-                  final updated = await Navigator.push<Budget>(
-                    context,
-                    MaterialPageRoute(
-                      builder: (ctx) => BudgetFormScreen(
-                        categories: [category],
-                        budget: budget,
+                onDismissed: (direction) {
+                  final notifier = ref.read(budgetsProvider.notifier);
+                  final messenger = ScaffoldMessenger.of(context);
+                  notifier.removeBudget(budget.id!);
+                  messenger.clearSnackBars();
+                  messenger.showSnackBar(
+                    SnackBar(
+                      content: const Text('Budget deleted'),
+                      persist: false,
+                      duration: const Duration(seconds: 4),
+                      action: SnackBarAction(
+                        label: 'Undo',
+                        onPressed: () => notifier.addBudget(budget),
                       ),
                     ),
                   );
-                  if (!context.mounted || updated == null) return;
-                  ref.read(budgetsProvider.notifier).updateBudget(updated);
                 },
+                child: BudgetItem(
+                  category: category,
+                  budget: budget,
+                  spentCents: spentCents,
+                  onTap: () async {
+                    final updated = await Navigator.push<Budget>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (ctx) => BudgetFormScreen(
+                          categories: [category],
+                          budget: budget,
+                        ),
+                      ),
+                    );
+                    if (!context.mounted || updated == null) return;
+                    ref.read(budgetsProvider.notifier).updateBudget(updated);
+                  },
+                ),
               );
             },
           );
