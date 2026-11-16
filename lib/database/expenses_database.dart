@@ -3,6 +3,7 @@ import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/utils/default_categories.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter/foundation.dart' show debugPrint;
 
 class ExpensesDatabase {
   static Database? _database;
@@ -22,7 +23,7 @@ class ExpensesDatabase {
     final dbPath = await getDatabasesPath();
     _database = await openDatabase(
       join(dbPath, 'expense.db'),
-      version: 2,
+      version: 3,
       onCreate: (db, version) async {
         await db.execute(
           'CREATE TABLE expenses( id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, amount_cents INTEGER, date TEXT, category TEXT, category_id INTEGER)',
@@ -39,7 +40,16 @@ class ExpensesDatabase {
             'UPDATE expenses SET category_id = (SELECT id FROM categories WHERE icon_key = expenses.category)',
           );
         }
+        if (oldVersion < 3) {
+          await db.execute(
+            'UPDATE expenses SET category_id = (SELECT id FROM categories WHERE icon_key = expenses.category) WHERE category_id IS NULL',
+          );
+        }
       },
+    );
+    debugPrint(
+      (await _database!.rawQuery('SELECT category, category_id FROM expenses'))
+          .toString(),
     );
     return _database!;
   }
