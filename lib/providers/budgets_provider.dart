@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:expense_tracker/database/expenses_database.dart';
 import 'package:expense_tracker/models/budget.dart';
+import 'package:expense_tracker/models/period.dart';
+import 'package:expense_tracker/providers/expenses_provider.dart';
+import 'package:expense_tracker/utils/sum_by_category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BudgetsNotifier extends AsyncNotifier<List<Budget>> {
@@ -33,3 +36,9 @@ class BudgetsNotifier extends AsyncNotifier<List<Budget>> {
 final budgetsProvider = AsyncNotifierProvider<BudgetsNotifier, List<Budget>>(
   BudgetsNotifier.new,
 );
+
+final monthSpentProvider = Provider<Map<int, int>>((ref) {
+  final expenses = ref.watch(expensesProvider).value ?? [];
+  final month = Period.current(PeriodType.month);
+  return sumByCategory(expenses.where((e) => month.contains(e.date)).toList());
+});
