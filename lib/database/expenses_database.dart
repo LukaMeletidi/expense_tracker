@@ -1,8 +1,8 @@
+import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/utils/default_categories.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:flutter/foundation.dart';
 
 class ExpensesDatabase {
   static Database? _database;
@@ -60,6 +60,12 @@ class ExpensesDatabase {
     final db = await _getDatabase();
     final rows = await db.query('expenses', orderBy: 'date DESC');
     return rows.map((row) => Expense.fromMap(row)).toList();
+  }
+
+  static Future<List<Category>> getCategories() async {
+    final db = await _getDatabase();
+    final rows = await db.query('categories');
+    return rows.map((row) => Category.fromMap(row)).toList();
   }
 
   static Future<void> deleteExpense(int id) async {
