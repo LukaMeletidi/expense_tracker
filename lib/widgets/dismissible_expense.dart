@@ -25,29 +25,23 @@ class DismissibleExpense extends ConsumerWidget {
         ),
         child: Icon(Icons.delete, color: Theme.of(context).colorScheme.onError),
       ),
-      confirmDismiss: (direction) => showDialog<bool>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Delete expense?'),
-          content: const Text('Are you sure you want to delete this expense?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(ctx, false);
-              },
-              child: const Text('Cancel'),
+      onDismissed: (direction) {
+        final notifier = ref.read(expensesProvider.notifier);
+        final messenger = ScaffoldMessenger.of(context);
+        notifier.removeExpense(expense.id!);
+        messenger.clearSnackBars();
+        messenger.showSnackBar(
+          SnackBar(
+            content: const Text('Expense deleted'),
+            persist: false,
+            duration: const Duration(seconds: 4),
+            action: SnackBarAction(
+              label: 'Undo',
+              onPressed: () => notifier.addExpense(expense),
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(ctx, true);
-              },
-              child: const Text('Delete'),
-            ),
-          ],
-        ),
-      ),
-      onDismissed: (direction) =>
-          ref.read(expensesProvider.notifier).removeExpense(expense.id!),
+          ),
+        );
+      },
       child: ExpenseItem(
         expense: expense,
         onTap: () async {
