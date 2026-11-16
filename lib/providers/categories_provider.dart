@@ -19,3 +19,8 @@ final activeCategoriesProvider = Provider<AsyncValue<List<Category>>>((ref) {
       .watch(categoriesProvider)
       .whenData((list) => list.where((c) => !c.isDeleted).toList());
 });
+
+final categoriesByProvider = Provider<Map<int, Category>>((ref) {
+  final categories = ref.watch(categoriesProvider).value ?? [];
+  return {for (final c in categories) c.id!: c};
+});

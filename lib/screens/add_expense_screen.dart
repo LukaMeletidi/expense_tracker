@@ -1,23 +1,25 @@
 import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/providers/categories_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class AddExpenseScreen extends StatefulWidget {
+class AddExpenseScreen extends ConsumerStatefulWidget {
   const AddExpenseScreen({super.key, this.expense});
 
   final Expense? expense;
 
   @override
-  State<AddExpenseScreen> createState() {
+  ConsumerState<AddExpenseScreen> createState() {
     return _AddExpenseScreenState();
   }
 }
 
-class _AddExpenseScreenState extends State<AddExpenseScreen> {
+class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _titleController;
   late final TextEditingController _amountController;
-  late ExpenseCategory _selectedCategory;
+  int? _selectedCategoryId;
   late DateTime _selectedDate;
 
   @override
@@ -30,7 +32,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
           ? null
           : (expense.amountCents / 100).toStringAsFixed(2),
     );
-    _selectedCategory = expense?.category ?? ExpenseCategory.food;
+    _selectedCategoryId = expense?.categoryId;
     _selectedDate = expense?.date ?? DateTime.now();
   }
 
@@ -64,7 +66,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         title: _titleController.text.trim(),
         amountCents: (amount * 100).round(),
         date: _selectedDate,
-        category: _selectedCategory,
+        categoryId: _selectedCategoryId!,
       ),
     );
   }
@@ -78,11 +80,14 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final categories = ref.watch(categoriesProvider).value ?? [];
+    final items = categories
+        .where((c) => !c.isDeleted || c.id == _selectedCategoryId)
+        .toList();
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.expense == null ? 'Add Expense' : 'Edit Expense',
-        ),
+        title: Text(widget.expense == null ? 'Add Expense' : 'Edit Expense'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -128,17 +133,20 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                   Text(DateFormat('d MMM y').format(_selectedDate)),
                   const SizedBox(width: 40),
                   Expanded(
-                    child: DropdownButtonFormField<ExpenseCategory>(
-                      initialValue: _selectedCategory,
-                      items: ExpenseCategory.values
+                    child: DropdownButtonFormField<int>(
+                      initialValue: _selectedCategoryId,
+                      hint: const Text('Category'),
+                      validator: (value) =>
+                          value == null ? 'Select a category' : null,
+                      items: items
                           .map(
-                            (category) => DropdownMenuItem(
-                              value: category,
+                            (category) => DropdownMenuItem<int>(
+                              value: category.id,
                               child: Row(
                                 children: [
-                                  Icon(category.icon),
+                                  Icon(category.icon, color: category.color),
                                   const SizedBox(width: 4),
-                                  Text(category.label),
+                                  Text(category.name),
                                 ],
                               ),
                             ),
@@ -149,7 +157,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                           return;
                         }
                         setState(() {
-                          _selectedCategory = value;
+                          _selectedCategoryId = value;
                         });
                       },
                     ),

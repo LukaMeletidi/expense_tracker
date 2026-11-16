@@ -1,3 +1,5 @@
+import 'package:expense_tracker/models/category.dart';
+import 'package:expense_tracker/providers/categories_provider.dart';
 import 'package:expense_tracker/providers/period_provider.dart';
 import 'package:expense_tracker/utils/format.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -11,6 +13,13 @@ class CategoryBreakdown extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final totals = ref.watch(categoryTotalsProvider);
     final total = ref.watch(periodTotalProvider);
+    final categories = ref.watch(categoriesByProvider);
+    const unknown = Category(
+      name: 'Unknown',
+      iconKey: 'other',
+      colorValue: 0xFF9E9E9E,
+    );
+    Category categoryOf(int id) => categories[id] ?? unknown;
     final entries = totals.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
 
@@ -19,7 +28,7 @@ class CategoryBreakdown extends ConsumerWidget {
             padding: EdgeInsets.all(32),
             child: Center(
               child: Text(
-                'No expenses this month',
+                'No expenses in this period',
                 textAlign: TextAlign.center,
               ),
             ),
@@ -36,7 +45,7 @@ class CategoryBreakdown extends ConsumerWidget {
                             .map(
                               (e) => PieChartSectionData(
                                 value: e.value.toDouble(),
-                                color: e.key.color,
+                                color: categoryOf(e.key).color,
                                 title: '${(e.value / total * 100).round()} %',
                                 radius: 40,
                                 titleStyle: const TextStyle(
@@ -65,16 +74,19 @@ class CategoryBreakdown extends ConsumerWidget {
                     children: [
                       Row(
                         children: [
-                          Icon(entry.key.icon, color: entry.key.color),
+                          Icon(
+                            categoryOf(entry.key).icon,
+                            color: categoryOf(entry.key).color,
+                          ),
                           const SizedBox(width: 20),
-                          Expanded(child: Text(entry.key.label)),
+                          Expanded(child: Text(categoryOf(entry.key).name)),
                           const SizedBox(width: 20),
                           Text(formatCents(entry.value)),
                         ],
                       ),
                       const SizedBox(height: 10),
                       LinearProgressIndicator(
-                        color: entry.key.color,
+                        color: categoryOf(entry.key).color,
                         minHeight: 8,
                         borderRadius: BorderRadius.circular(4),
                         value: entry.value / total,

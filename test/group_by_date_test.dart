@@ -3,12 +3,7 @@ import 'package:expense_tracker/utils/group_by_date.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Expense makeExpense(DateTime date) {
-  return Expense(
-    title: 'test',
-    amountCents: 100,
-    date: date,
-    category: ExpenseCategory.food,
-  );
+  return Expense(title: 'test', amountCents: 100, date: date, categoryId: 1);
 }
 
 void main() {

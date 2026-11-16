@@ -3,7 +3,6 @@ import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/utils/default_categories.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:flutter/foundation.dart' show debugPrint;
 
 class ExpensesDatabase {
   static Database? _database;
@@ -47,10 +46,6 @@ class ExpensesDatabase {
         }
       },
     );
-    debugPrint(
-      (await _database!.rawQuery('SELECT category, category_id FROM expenses'))
-          .toString(),
-    );
     return _database!;
   }
 
@@ -62,7 +57,7 @@ class ExpensesDatabase {
       title: expense.title,
       amountCents: expense.amountCents,
       date: expense.date,
-      category: expense.category,
+      categoryId: expense.categoryId,
     );
   }
 
