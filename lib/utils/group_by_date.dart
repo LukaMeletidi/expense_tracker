@@ -12,3 +12,12 @@ Map<DateTime, List<Expense>> groupByDate(List<Expense> expenses) {
   }
   return groups;
 }
+
+List<Object> flattenByDate(List<Expense> expenses) {
+  final items = <Object>[];
+  groupByDate(expenses).forEach((day, dayExpenses) {
+    items.add(day);
+    items.addAll(dayExpenses);
+  });
+  return items;
+}

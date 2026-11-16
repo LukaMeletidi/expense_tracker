@@ -2,8 +2,8 @@ import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/providers/expenses_provider.dart';
 import 'package:expense_tracker/providers/period_provider.dart';
 import 'package:expense_tracker/screens/add_expense_screen.dart';
-import 'package:expense_tracker/utils/day_label.dart';
 import 'package:expense_tracker/utils/group_by_date.dart';
+import 'package:expense_tracker/widgets/day_header.dart';
 import 'package:expense_tracker/widgets/dismissible_expense.dart';
 import 'package:expense_tracker/widgets/period_selector.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +23,7 @@ class HomeScreen extends ConsumerWidget {
         error: (error, stack) => Center(child: Text('Error $error')),
         loading: () => const Center(child: CircularProgressIndicator()),
         data: (expenses) {
-          final groups = groupByDate(expenses);
-          final items = <Object>[];
-          groups.forEach((day, dayExpenses) {
-            items.add(day);
-            items.addAll(dayExpenses);
-          });
+          final items = flattenByDate(expenses);
           return ListView.builder(
             padding: const EdgeInsets.only(bottom: 80),
             itemCount: items.length + 1,
@@ -40,13 +35,7 @@ class HomeScreen extends ConsumerWidget {
               }
               final item = items[index - 1];
               if (item is DateTime) {
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
-                  child: Text(
-                    dayLabel(item, DateTime.now()),
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                );
+                return DayHeader(day: item);
               }
               final expense = item as Expense;
               return DismissibleExpense(
