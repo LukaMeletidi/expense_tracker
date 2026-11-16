@@ -7,6 +7,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CategoriesNotifier extends AsyncNotifier<List<Category>> {
   @override
   FutureOr<List<Category>> build() => ExpensesDatabase.getCategories();
+
+  Future<void> addCategory(Category category) async {
+    final saved = await ExpensesDatabase.insertCategory(category);
+    final current = state.value ?? [];
+    state = AsyncData([...current, saved]);
+  }
+
+  Future<void> updateCategory(Category category) async {
+    await ExpensesDatabase.updateCategory(category);
+    final current = state.value ?? [];
+    state = AsyncData(
+      current.map((c) => c.id == category.id ? category : c).toList(),
+    );
+  }
 }
 
 final categoriesProvider =

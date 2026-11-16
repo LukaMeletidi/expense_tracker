@@ -73,6 +73,22 @@ class ExpensesDatabase {
     return rows.map((row) => Category.fromMap(row)).toList();
   }
 
+  static Future<Category> insertCategory(Category category) async {
+    final db = await _getDatabase();
+    final id = await db.insert('categories', category.toMap());
+    return category.copyWith(id: id);
+  }
+
+  static Future<void> updateCategory(Category category) async {
+    final db = await _getDatabase();
+    await db.update(
+      'categories',
+      category.toMap(),
+      where: 'id = ?',
+      whereArgs: [category.id],
+    );
+  }
+
   static Future<void> deleteExpense(int id) async {
     final db = await _getDatabase();
     await db.delete('expenses', where: 'id = ?', whereArgs: [id]);

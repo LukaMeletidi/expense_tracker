@@ -18,6 +18,22 @@ class Category {
 
   IconData get icon => iconFor(iconKey);
   Color get color => Color(colorValue);
+  
+  Category copyWith({
+    int? id,
+    String? name,
+    String? iconKey,
+    int? colorValue,
+    bool? isDeleted,
+  }) {
+    return Category(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      iconKey: iconKey ?? this.iconKey,
+      colorValue: colorValue ?? this.colorValue,
+      isDeleted: isDeleted ?? this.isDeleted,
+    );
+  }
 
   Map<String, Object?> toMap() => {
     'id': id,

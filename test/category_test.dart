@@ -34,5 +34,27 @@ void main() {
     test('iconFor falls back for an unknown key', () {
       expect(iconFor('nonsense'), Icons.category);
     });
+    test('copyWith changes only the given fields', () {
+      const category = Category(
+        id: 1,
+        name: 'Pets',
+        iconKey: 'pets',
+        colorValue: 0xFF795548,
+      );
+      final changed = category.copyWith(name: 'Dogs');
+      expect(changed.name, 'Dogs');
+      expect(changed.id, 1);
+      expect(changed.iconKey, 'pets');
+      expect(changed.colorValue, 0xFF795548);
+    });
+    test('copyWith can mark a category as deleted', () {
+      const category = Category(
+        id: 1,
+        name: 'Pets',
+        iconKey: 'pets',
+        colorValue: 0xFF795548,
+      );
+      expect(category.copyWith(isDeleted: true).isDeleted, true);
+    });
   });
 }
