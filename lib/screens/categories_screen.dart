@@ -9,7 +9,7 @@ class CategoriesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categoriesAsync = ref.watch(categoriesProvider);
+    final categoriesAsync = ref.watch(activeCategoriesProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Categories')),
@@ -21,22 +21,71 @@ class CategoriesScreen extends ConsumerWidget {
           itemCount: categories.length,
           itemBuilder: (ctx, index) {
             final category = categories[index];
-            return ListTile(
-              leading: CircleAvatar(
-                backgroundColor: category.color.withAlpha(40),
-                child: Icon(category.icon, color: category.color),
+            return Dismissible(
+              key: ValueKey(category.id),
+              direction: DismissDirection.endToStart,
+              background: Container(
+                color: Theme.of(context).colorScheme.error,
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.only(right: 20),
+                child: Icon(
+                  Icons.delete,
+                  color: Theme.of(context).colorScheme.onError,
+                ),
               ),
-              title: Text(category.name),
-              onTap: () async {
-                final updated = await Navigator.push<Category>(
-                  context,
-                  MaterialPageRoute(
-                    builder: (ctx) => CategoryFormScreen(category: category),
+              confirmDismiss: (direction) async {
+                if (categories.length <= 1) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('You need at least one category'),
+                    ),
+                  );
+                  return false;
+                }
+                return showDialog<bool>(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text('Delete category'),
+                    content: const Text(
+                      'Existing expenses will keep this category.',
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(ctx, false);
+                        },
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(ctx, true);
+                        },
+                        child: const Text('Delete'),
+                      ),
+                    ],
                   ),
                 );
-                if (!context.mounted || updated == null) return;
-                ref.read(categoriesProvider.notifier).updateCategory(updated);
               },
+              onDismissed: ((direction) => ref
+                  .read(categoriesProvider.notifier)
+                  .updateCategory(category.copyWith(isDeleted: true))),
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: category.color.withAlpha(40),
+                  child: Icon(category.icon, color: category.color),
+                ),
+                title: Text(category.name),
+                onTap: () async {
+                  final updated = await Navigator.push<Category>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) => CategoryFormScreen(category: category),
+                    ),
+                  );
+                  if (!context.mounted || updated == null) return;
+                  ref.read(categoriesProvider.notifier).updateCategory(updated);
+                },
+              ),
             );
           },
         ),

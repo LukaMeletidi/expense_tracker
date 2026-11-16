@@ -13,7 +13,7 @@ class CategoryBreakdown extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final totals = ref.watch(categoryTotalsProvider);
     final total = ref.watch(periodTotalProvider);
-    final categories = ref.watch(categoriesByProvider);
+    final categories = ref.watch(categoriesByIdProvider);
     const unknown = Category(
       name: 'Unknown',
       iconKey: 'other',

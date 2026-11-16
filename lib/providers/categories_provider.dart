@@ -15,11 +15,11 @@ class CategoriesNotifier extends AsyncNotifier<List<Category>> {
   }
 
   Future<void> updateCategory(Category category) async {
-    await ExpensesDatabase.updateCategory(category);
     final current = state.value ?? [];
     state = AsyncData(
       current.map((c) => c.id == category.id ? category : c).toList(),
     );
+    await ExpensesDatabase.updateCategory(category);
   }
 }
 
@@ -34,7 +34,7 @@ final activeCategoriesProvider = Provider<AsyncValue<List<Category>>>((ref) {
       .whenData((list) => list.where((c) => !c.isDeleted).toList());
 });
 
-final categoriesByProvider = Provider<Map<int, Category>>((ref) {
+final categoriesByIdProvider = Provider<Map<int, Category>>((ref) {
   final categories = ref.watch(categoriesProvider).value ?? [];
   return {for (final c in categories) c.id!: c};
 });

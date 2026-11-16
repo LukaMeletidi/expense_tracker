@@ -12,7 +12,7 @@ class ExpenseItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final category = ref.watch(categoriesByProvider)[expense.categoryId];
+    final category = ref.watch(categoriesByIdProvider)[expense.categoryId];
 
     return Card(
       child: InkWell(
