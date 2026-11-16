@@ -1,3 +1,4 @@
+import 'package:expense_tracker/models/budget.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/utils/default_categories.dart';
@@ -16,18 +17,25 @@ class ExpensesDatabase {
     }
   }
 
+  static Future<void> _createBudgets(Database db) async {
+    await db.execute(
+      'CREATE TABLE budgets( id INTEGER PRIMARY KEY AUTOINCREMENT, category_id INTEGER UNIQUE, limit_cents INTEGER)',
+    );
+  }
+
   static Future<Database> _getDatabase() async {
     if (_database != null) return _database!;
 
     final dbPath = await getDatabasesPath();
     _database = await openDatabase(
       join(dbPath, 'expense.db'),
-      version: 3,
+      version: 4,
       onCreate: (db, version) async {
         await db.execute(
           'CREATE TABLE expenses( id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, amount_cents INTEGER, date TEXT, category TEXT, category_id INTEGER)',
         );
         await _createCategories(db);
+        await _createBudgets(db);
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) {
@@ -43,6 +51,9 @@ class ExpensesDatabase {
           await db.execute(
             'UPDATE expenses SET category_id = (SELECT id FROM categories WHERE icon_key = expenses.category) WHERE category_id IS NULL',
           );
+        }
+        if (oldVersion < 4) {
+          await _createBudgets(db);
         }
       },
     );
@@ -87,6 +98,33 @@ class ExpensesDatabase {
       where: 'id = ?',
       whereArgs: [category.id],
     );
+  }
+
+  static Future<List<Budget>> getBudgets() async {
+    final db = await _getDatabase();
+    final rows = await db.query('budgets');
+    return rows.map((row) => Budget.fromMap(row)).toList();
+  }
+
+  static Future<Budget> insertBudget(Budget budget) async {
+    final db = await _getDatabase();
+    final id = await db.insert('budgets', budget.toMap());
+    return budget.copywith(id: id);
+  }
+
+  static Future<void> updateBudget(Budget budget) async {
+    final db = await _getDatabase();
+    await db.update(
+      'budgets',
+      budget.toMap(),
+      where: 'id = ?',
+      whereArgs: [budget.id],
+    );
+  }
+
+  static Future<void> deleteBudget(int id) async {
+    final db = await _getDatabase();
+    await db.delete('budgets', where: 'id = ?', whereArgs: [id]);
   }
 
   static Future<void> deleteExpense(int id) async {
