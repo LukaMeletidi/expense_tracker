@@ -41,12 +41,12 @@ final periodTotalProvider = Provider<int>((ref) {
   return expenses.fold(0, (sum, expense) => sum + expense.amountCents);
 });
 
-final categoryTotalsProvider = Provider<Map<ExpenseCategory, int>>((ref) {
+final categoryTotalsProvider = Provider<Map<int, int>>((ref) {
   final expenses = ref.watch(periodExpensesProvider).value ?? [];
-  final totals = <ExpenseCategory, int>{};
+  final totals = <int, int>{};
   for (final expense in expenses) {
-    totals[expense.category] =
-        (totals[expense.category] ?? 0) + expense.amountCents;
+    totals[expense.categoryId] =
+        (totals[expense.categoryId] ?? 0) + expense.amountCents;
   }
   return totals;
 });

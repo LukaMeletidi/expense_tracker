@@ -38,7 +38,6 @@ class HomeScreen extends ConsumerWidget {
                   children: [PeriodSelector(), CategoryBreakdown()],
                 );
               }
-              //final expense = expenses[index - 1];
               final item = items[index - 1];
               if (item is DateTime) {
                 return Padding(

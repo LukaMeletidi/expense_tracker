@@ -1,9 +1,20 @@
+import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/utils/default_categories.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ExpensesDatabase {
   static Database? _database;
+
+  static Future<void> _createCategories(Database db) async {
+    await db.execute(
+      'CREATE TABLE categories( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, icon_key TEXT, color INTEGER, is_deleted INTEGER DEFAULT 0)',
+    );
+    for (final category in defaultCategories) {
+      await db.insert('categories', category.toMap());
+    }
+  }
 
   static Future<Database> _getDatabase() async {
     if (_database != null) return _database!;
@@ -11,10 +22,29 @@ class ExpensesDatabase {
     final dbPath = await getDatabasesPath();
     _database = await openDatabase(
       join(dbPath, 'expense.db'),
-      version: 1,
-      onCreate: (db, version) => db.execute(
-        'CREATE TABLE expenses( id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, amount_cents INTEGER, date TEXT, category TEXT)',
-      ),
+      version: 3,
+      onCreate: (db, version) async {
+        await db.execute(
+          'CREATE TABLE expenses( id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, amount_cents INTEGER, date TEXT, category TEXT, category_id INTEGER)',
+        );
+        await _createCategories(db);
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          await _createCategories(db);
+          await db.execute(
+            'ALTER TABLE expenses ADD COLUMN category_id INTEGER',
+          );
+          await db.execute(
+            'UPDATE expenses SET category_id = (SELECT id FROM categories WHERE icon_key = expenses.category)',
+          );
+        }
+        if (oldVersion < 3) {
+          await db.execute(
+            'UPDATE expenses SET category_id = (SELECT id FROM categories WHERE icon_key = expenses.category) WHERE category_id IS NULL',
+          );
+        }
+      },
     );
     return _database!;
   }
@@ -27,7 +57,7 @@ class ExpensesDatabase {
       title: expense.title,
       amountCents: expense.amountCents,
       date: expense.date,
-      category: expense.category,
+      categoryId: expense.categoryId,
     );
   }
 
@@ -35,6 +65,28 @@ class ExpensesDatabase {
     final db = await _getDatabase();
     final rows = await db.query('expenses', orderBy: 'date DESC');
     return rows.map((row) => Expense.fromMap(row)).toList();
+  }
+
+  static Future<List<Category>> getCategories() async {
+    final db = await _getDatabase();
+    final rows = await db.query('categories');
+    return rows.map((row) => Category.fromMap(row)).toList();
+  }
+
+  static Future<Category> insertCategory(Category category) async {
+    final db = await _getDatabase();
+    final id = await db.insert('categories', category.toMap());
+    return category.copyWith(id: id);
+  }
+
+  static Future<void> updateCategory(Category category) async {
+    final db = await _getDatabase();
+    await db.update(
+      'categories',
+      category.toMap(),
+      where: 'id = ?',
+      whereArgs: [category.id],
+    );
   }
 
   static Future<void> deleteExpense(int id) async {
