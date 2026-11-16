@@ -43,33 +43,27 @@ class CategoriesScreen extends ConsumerWidget {
                   );
                   return false;
                 }
-                return showDialog<bool>(
-                  context: context,
-                  builder: (ctx) => AlertDialog(
-                    title: const Text('Delete category'),
-                    content: const Text(
-                      'Existing expenses will keep this category.',
+                return true;
+              },
+              onDismissed: ((direction) {
+                final notifier = ref.read(categoriesProvider.notifier);
+                final messenger = ScaffoldMessenger.of(context);
+                notifier.updateCategory(category.copyWith(isDeleted: true));
+                messenger.clearSnackBars();
+                messenger.showSnackBar(
+                  SnackBar(
+                    content: const Text('Category deleted'),
+                    persist: false,
+                    duration: const Duration(seconds: 4),
+                    action: SnackBarAction(
+                      label: 'Undo',
+                      onPressed: () => notifier.updateCategory(
+                        category.copyWith(isDeleted: false),
+                      ),
                     ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(ctx, false);
-                        },
-                        child: const Text('Cancel'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(ctx, true);
-                        },
-                        child: const Text('Delete'),
-                      ),
-                    ],
                   ),
                 );
-              },
-              onDismissed: ((direction) => ref
-                  .read(categoriesProvider.notifier)
-                  .updateCategory(category.copyWith(isDeleted: true))),
+              }),
               child: ListTile(
                 leading: CircleAvatar(
                   backgroundColor: category.color.withAlpha(40),
