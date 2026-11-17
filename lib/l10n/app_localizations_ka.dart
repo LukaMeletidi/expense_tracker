@@ -152,4 +152,37 @@ class AppLocalizationsKa extends AppLocalizations {
   String budgetOver(String amount) {
     return 'გადაჭარბებულია $amount';
   }
+
+  @override
+  String get categoryFood => 'საკვები';
+
+  @override
+  String get categoryTransport => 'ტრანსპორტი';
+
+  @override
+  String get categoryShopping => 'შოპინგი';
+
+  @override
+  String get categoryHealth => 'ჯანმრთელობა';
+
+  @override
+  String get categorySport => 'სპორტი';
+
+  @override
+  String get categoryEducation => 'განათლება';
+
+  @override
+  String get categoryEntertainment => 'გართობა';
+
+  @override
+  String get categoryCafe => 'კაფე';
+
+  @override
+  String get categoryHouseneeds => 'საყოფაცხოვრებო';
+
+  @override
+  String get categoryBills => 'გადასახადები';
+
+  @override
+  String get categoryOther => 'სხვა';
 }

@@ -5,6 +5,7 @@ import 'package:expense_tracker/providers/categories_provider.dart';
 import 'package:expense_tracker/providers/currency_provider.dart';
 import 'package:expense_tracker/providers/period_provider.dart';
 import 'package:expense_tracker/screens/category_form_screen.dart';
+import 'package:expense_tracker/utils/category_name.dart';
 import 'package:expense_tracker/utils/format.dart';
 import 'package:expense_tracker/utils/group_by_date.dart';
 import 'package:expense_tracker/widgets/day_header.dart';
@@ -29,7 +30,7 @@ class CategoryDetailScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(category.name),
+        title: Text(categoryName(category, l10n)),
         actions: [
           IconButton(
             onPressed: () async {

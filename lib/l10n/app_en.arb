@@ -66,5 +66,16 @@
     "placeholders": {
       "amount": { "type": "String" }
     }
-  }
+  },
+  "categoryFood": "Food",
+  "categoryTransport": "Transport",
+  "categoryShopping": "Shopping",
+  "categoryHealth": "Health",
+  "categorySport": "Sport",
+  "categoryEducation": "Education",
+  "categoryEntertainment": "Entertainment",
+  "categoryCafe": "Cafe",
+  "categoryHouseneeds": "Houseneeds",
+  "categoryBills": "Bills",
+  "categoryOther": "Other"
 }

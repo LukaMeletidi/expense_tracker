@@ -2,6 +2,7 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/providers/categories_provider.dart';
 import 'package:expense_tracker/providers/currency_provider.dart';
+import 'package:expense_tracker/utils/category_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -136,10 +137,16 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                     onPressed: _pickDate,
                     icon: const Icon(Icons.calendar_month),
                   ),
-                  Text(DateFormat('d MMM y').format(_selectedDate)),
-                  const SizedBox(width: 40),
+                  Text(
+                    DateFormat(
+                      'd MMM y',
+                      l10n.localeName,
+                    ).format(_selectedDate),
+                  ),
+                  const SizedBox(width: 30),
                   Expanded(
                     child: DropdownButtonFormField<int>(
+                      isExpanded: true,
                       initialValue: _selectedCategoryId,
                       hint: Text(l10n.category),
                       validator: (value) =>
@@ -152,7 +159,12 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                                 children: [
                                   Icon(category.icon, color: category.color),
                                   const SizedBox(width: 4),
-                                  Text(category.name),
+                                  Flexible(
+                                    child: Text(
+                                      categoryName(category, l10n),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
