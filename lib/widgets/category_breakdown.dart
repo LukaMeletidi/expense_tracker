@@ -3,6 +3,7 @@ import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/providers/categories_provider.dart';
 import 'package:expense_tracker/providers/currency_provider.dart';
 import 'package:expense_tracker/providers/period_provider.dart';
+import 'package:expense_tracker/utils/category_name.dart';
 import 'package:expense_tracker/utils/format.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,11 @@ class CategoryBreakdown extends ConsumerWidget {
                             color: categoryOf(entry.key).color,
                           ),
                           const SizedBox(width: 20),
-                          Expanded(child: Text(categoryOf(entry.key).name)),
+                          Expanded(
+                            child: Text(
+                              categoryName(categoryOf(entry.key), l10n),
+                            ),
+                          ),
                           const SizedBox(width: 20),
                           Text(formatCents(entry.value, symbol)),
                         ],

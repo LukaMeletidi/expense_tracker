@@ -2,6 +2,7 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/providers/categories_provider.dart';
 import 'package:expense_tracker/providers/currency_provider.dart';
+import 'package:expense_tracker/utils/category_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -152,7 +153,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                                 children: [
                                   Icon(category.icon, color: category.color),
                                   const SizedBox(width: 4),
-                                  Text(category.name),
+                                  Text(categoryName(category, l10n)),
                                 ],
                               ),
                             ),

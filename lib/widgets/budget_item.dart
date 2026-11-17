@@ -3,6 +3,7 @@ import 'package:expense_tracker/models/budget.dart';
 import 'package:expense_tracker/models/budget_progress.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/providers/currency_provider.dart';
+import 'package:expense_tracker/utils/category_name.dart';
 import 'package:expense_tracker/utils/format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,7 +48,7 @@ class BudgetItem extends ConsumerWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      category.name,
+                      categoryName(category, l10n),
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),

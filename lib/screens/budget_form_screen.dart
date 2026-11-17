@@ -1,6 +1,7 @@
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/budget.dart';
 import 'package:expense_tracker/models/category.dart';
+import 'package:expense_tracker/utils/category_name.dart';
 import 'package:flutter/material.dart';
 
 class BudgetFormScreen extends StatefulWidget {
@@ -75,7 +76,7 @@ class _BudgetFormScreenState extends State<BudgetFormScreen> {
                           children: [
                             Icon(category.icon, color: category.color),
                             const SizedBox(width: 8),
-                            Text(category.name),
+                            Text(categoryName(category, l10n)),
                           ],
                         ),
                       ),

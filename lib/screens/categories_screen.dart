@@ -3,6 +3,7 @@ import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/providers/categories_provider.dart';
 import 'package:expense_tracker/screens/category_detail_screen.dart';
 import 'package:expense_tracker/screens/category_form_screen.dart';
+import 'package:expense_tracker/utils/category_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -70,7 +71,7 @@ class CategoriesScreen extends ConsumerWidget {
                   backgroundColor: category.color.withAlpha(40),
                   child: Icon(category.icon, color: category.color),
                 ),
-                title: Text(category.name),
+                title: Text(categoryName(category, l10n)),
                 onTap: () {
                   Navigator.push(
                     context,
