@@ -23,4 +23,16 @@ class AppLocalizationsKa extends AppLocalizations {
 
   @override
   String get searchByName => 'ძებნა სახელით';
+
+  @override
+  String get periodDay => 'დღე';
+
+  @override
+  String get periodWeek => 'კვირა';
+
+  @override
+  String get periodMonth => 'თვე';
+
+  @override
+  String get periodYear => 'წელი';
 }

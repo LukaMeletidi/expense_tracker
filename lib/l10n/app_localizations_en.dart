@@ -23,4 +23,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchByName => 'Search by name';
+
+  @override
+  String get periodDay => 'Day';
+
+  @override
+  String get periodWeek => 'Week';
+
+  @override
+  String get periodMonth => 'Month';
+
+  @override
+  String get periodYear => 'Year';
 }

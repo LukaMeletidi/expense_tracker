@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/period.dart';
 import 'package:expense_tracker/providers/period_provider.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ class PeriodSelector extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final period = ref.watch(periodProvider);
     final notifier = ref.read(periodProvider.notifier);
 
@@ -18,7 +20,10 @@ class PeriodSelector extends ConsumerWidget {
           child: SegmentedButton<PeriodType>(
             segments: PeriodType.values
                 .map(
-                  (type) => ButtonSegment(value: type, label: Text(type.label)),
+                  (type) => ButtonSegment(
+                    value: type,
+                    label: Text(_typeLabel(l10n, type)),
+                  ),
                 )
                 .toList(),
             selected: {period.type},
@@ -45,3 +50,10 @@ class PeriodSelector extends ConsumerWidget {
     );
   }
 }
+
+String _typeLabel(AppLocalizations l10n, PeriodType type) => switch (type) {
+  PeriodType.day => l10n.periodDay,
+  PeriodType.week => l10n.periodWeek,
+  PeriodType.month => l10n.periodMonth,
+  PeriodType.year => l10n.periodYear,
+};

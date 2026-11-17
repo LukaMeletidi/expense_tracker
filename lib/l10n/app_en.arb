@@ -3,5 +3,9 @@
   "navExpenses": "Expenses",
   "navCategories": "Categories",
   "navBudgets": "Budgets",
-  "searchByName": "Search by name"
+  "searchByName": "Search by name",
+  "periodDay": "Day",
+  "periodWeek": "Week",
+  "periodMonth": "Month",
+  "periodYear": "Year"
 }

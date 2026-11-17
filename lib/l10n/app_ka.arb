@@ -3,5 +3,9 @@
   "navExpenses": "ხარჯები",
   "navCategories": "კატეგორიები",
   "navBudgets": "ბიუჯეტი",
-  "searchByName": "ძებნა სახელით"
+  "searchByName": "ძებნა სახელით",
+  "periodDay": "დღე",
+  "periodWeek": "კვირა",
+  "periodMonth": "თვე",
+  "periodYear": "წელი"
 }
