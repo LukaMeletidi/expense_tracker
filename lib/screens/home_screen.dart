@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/providers/expenses_provider.dart';
 import 'package:expense_tracker/providers/period_provider.dart';
@@ -92,7 +93,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Expense Tracker'),
+        title: Text(AppLocalizations.of(context)!.appTitle),
         actions: const [CurrencySwitcher()],
       ),
       body: Column(
