@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/providers/categories_provider.dart';
@@ -19,6 +20,7 @@ class CategoryDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final symbol = ref.watch(currencySymbolProvider);
     final category = ref.watch(categoriesByIdProvider)[categoryId];
     if (category == null) return const Scaffold();
@@ -45,7 +47,8 @@ class CategoryDetailScreen extends ConsumerWidget {
         ],
       ),
       body: expensesAsync.when(
-        error: (error, stack) => Center(child: Text('Error $error')),
+        error: (error, stack) =>
+            Center(child: Text(l10n.errorMessage('$error'))),
         loading: () => const Center(child: CircularProgressIndicator()),
         data: (expenses) {
           final items = flattenByDate(expenses);
@@ -77,9 +80,9 @@ class CategoryDetailScreen extends ConsumerWidget {
                           ),
                     ),
                     if (items.isEmpty)
-                      const Padding(
-                        padding: EdgeInsets.all(32),
-                        child: Text('No expenses in this period'),
+                      Padding(
+                        padding: const EdgeInsets.all(32),
+                        child: Text(l10n.noExpensesInPeriod),
                       ),
                   ],
                 );

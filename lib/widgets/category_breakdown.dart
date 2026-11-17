@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/providers/categories_provider.dart';
 import 'package:expense_tracker/providers/currency_provider.dart';
@@ -12,12 +13,13 @@ class CategoryBreakdown extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final symbol = ref.watch(currencySymbolProvider);
     final totals = ref.watch(categoryTotalsProvider);
     final total = ref.watch(periodTotalProvider);
     final categories = ref.watch(categoriesByIdProvider);
-    const unknown = Category(
-      name: 'Unknown',
+    final unknown = Category(
+      name: l10n.unknownCategory,
       iconKey: 'other',
       colorValue: 0xFF9E9E9E,
     );
@@ -26,13 +28,10 @@ class CategoryBreakdown extends ConsumerWidget {
       ..sort((a, b) => b.value.compareTo(a.value));
 
     return entries.isEmpty
-        ? const Padding(
-            padding: EdgeInsets.all(32),
+        ? Padding(
+            padding: const EdgeInsets.all(32),
             child: Center(
-              child: Text(
-                'No expenses in this period',
-                textAlign: TextAlign.center,
-              ),
+              child: Text(l10n.noExpensesInPeriod, textAlign: TextAlign.center),
             ),
           )
         : Column(

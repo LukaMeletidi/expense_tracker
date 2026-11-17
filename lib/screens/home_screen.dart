@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/providers/expenses_provider.dart';
 import 'package:expense_tracker/providers/period_provider.dart';
@@ -7,6 +8,7 @@ import 'package:expense_tracker/utils/group_by_date.dart';
 import 'package:expense_tracker/widgets/currency_switcher.dart';
 import 'package:expense_tracker/widgets/day_header.dart';
 import 'package:expense_tracker/widgets/dismissible_expense.dart';
+import 'package:expense_tracker/widgets/language_switcher.dart';
 import 'package:expense_tracker/widgets/period_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,9 +32,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildMainList() {
+    final l10n = AppLocalizations.of(context)!;
     final expensesAsync = ref.watch(periodExpensesProvider);
     return expensesAsync.when(
-      error: (error, stack) => Center(child: Text('Error $error')),
+      error: (error, stack) => Center(child: Text(l10n.errorMessage('$error'))),
       loading: () => const Center(child: CircularProgressIndicator()),
       data: (expenses) {
         final items = flattenByDate(expenses);
@@ -61,14 +64,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildSearchResults() {
+    final l10n = AppLocalizations.of(context)!;
     final allAsync = ref.watch(expensesProvider);
     return allAsync.when(
-      error: (error, stack) => Center(child: Text('Error $error')),
+      error: (error, stack) => Center(child: Text(l10n.errorMessage('$error'))),
       loading: () => const Center(child: CircularProgressIndicator()),
       data: (all) {
         final results = filterByTitle(all, _query);
         if (results.isEmpty) {
-          return const Center(child: Text('No expenses found'));
+          return Center(child: Text(l10n.noExpensesFound));
         }
         final items = flattenByDate(results);
         return ListView.builder(
@@ -90,10 +94,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Expense Tracker'),
-        actions: const [CurrencySwitcher()],
+        title: Text(l10n.appTitle),
+        actions: const [LanguageSwitcher(), CurrencySwitcher()],
       ),
       body: Column(
         children: [
@@ -101,7 +107,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: SearchBar(
               controller: _searchController,
-              hintText: 'Search by name',
+              hintText: l10n.searchByName,
               leading: const Icon(Icons.search),
               trailing: [
                 if (_query.isNotEmpty)

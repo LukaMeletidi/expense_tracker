@@ -1,0 +1,70 @@
+{
+  "appTitle": "Expense Tracker",
+  "navExpenses": "Expenses",
+  "navCategories": "Categories",
+  "navBudgets": "Budgets",
+  "searchByName": "Search by name",
+  "periodDay": "Day",
+  "periodWeek": "Week",
+  "periodMonth": "Month",
+  "periodYear": "Year",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "cancel": "Cancel",
+  "save": "Save",
+  "undo": "Undo",
+  "currency": "Currency",
+  "category": "Category",
+  "selectCategory": "Select a category",
+  "addExpense": "Add Expense",
+  "editExpense": "Edit Expense",
+  "title": "Title",
+  "enterTitle": "Please enter a title",
+  "amount": "Amount",
+  "enterValidAmount": "Please enter a valid amount",
+  "newBudget": "New Budget",
+  "editBudget": "Edit Budget",
+  "monthlyLimit": "Monthly limit",
+  "newCategory": "New Category",
+  "editCategory": "Edit Category",
+  "name": "Name",
+  "enterName": "Please enter a name",
+  "icon": "Icon",
+  "color": "Color",
+  "noBudgetsYet": "No budgets yet.\nTap + to set a monthly limit for a category",
+  "budgetDeleted": "Budget deleted",
+  "allCategoriesHaveBudget": "All categories already have a budget",
+  "needOneCategory": "You need at least one category",
+  "categoryDeleted": "Category deleted",
+  "expenseDeleted": "Expense deleted",
+  "noExpensesFound": "No expenses found",
+  "noExpensesInPeriod": "No expenses in this period",
+  "errorMessage": "Error: {message}",
+  "@errorMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "unknownCategory": "Unknown",
+  "budgetSpentOf": "{spent} of {limit}",
+  "@budgetSpentOf": {
+    "placeholders": {
+      "spent": { "type": "String" },
+      "limit": { "type": "String" }
+    }
+  },
+  "budgetLeft": "{amount} left",
+  "@budgetLeft": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "budgetOver": "{amount} over",
+  "@budgetOver": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  }
+}

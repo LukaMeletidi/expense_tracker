@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/utils/day_label.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class DayHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
       child: Text(
-        dayLabel(day, DateTime.now()),
+        dayLabel(day, DateTime.now(), AppLocalizations.of(context)!),
         style: Theme.of(context).textTheme.titleSmall,
       ),
     );

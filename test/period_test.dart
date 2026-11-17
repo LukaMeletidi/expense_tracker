@@ -1,7 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:expense_tracker/models/period.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
+  setUpAll(() => initializeDateFormatting('ka'));
   group('Period', () {
     test('day starts at midnight and ends at next midnight', () {
       final period = Period(
@@ -92,14 +94,21 @@ void main() {
         type: PeriodType.month,
         anchor: DateTime(2026, 11, 15),
       );
-      expect(period.label, 'November 2026');
+      expect(period.label('en'), 'November 2026');
     });
     test('week label test', () {
       final period = Period(
         type: PeriodType.week,
         anchor: DateTime(2026, 11, 12),
       );
-      expect(period.label, '9 Nov - 15 Nov');
+      expect(period.label('en'), '9 Nov - 15 Nov');
+    });
+    test('Period month label in Georgian', () {
+      final period = Period(
+        type: PeriodType.month,
+        anchor: DateTime(2026, 11, 15),
+      );
+      expect(period.label('ka'), 'ნოემბერი 2026');
     });
   });
 }

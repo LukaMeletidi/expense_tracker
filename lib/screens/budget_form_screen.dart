@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/budget.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:flutter/material.dart';
@@ -49,9 +50,11 @@ class _BudgetFormScreenState extends State<BudgetFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.budget == null ? 'New Budget' : 'Edit Budget'),
+        title: Text(widget.budget == null ? l10n.newBudget : l10n.editBudget),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -61,9 +64,9 @@ class _BudgetFormScreenState extends State<BudgetFormScreen> {
             children: [
               DropdownButtonFormField<int>(
                 initialValue: _categoryId,
-                hint: const Text('Category'),
+                hint: Text(l10n.category),
                 validator: (value) =>
-                    value == null ? 'Select a category' : null,
+                    value == null ? l10n.selectCategory : null,
                 items: widget.categories
                     .map(
                       (category) => DropdownMenuItem<int>(
@@ -88,13 +91,13 @@ class _BudgetFormScreenState extends State<BudgetFormScreen> {
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                decoration: const InputDecoration(labelText: 'Monthly limit'),
+                decoration: InputDecoration(labelText: l10n.monthlyLimit),
                 validator: (value) {
                   final amount = double.tryParse(
                     (value ?? '').replaceAll(',', '.'),
                   );
                   if (amount == null || amount <= 0) {
-                    return 'Please enter a valid amount';
+                    return l10n.enterValidAmount;
                   }
                   return null;
                 },
@@ -107,10 +110,10 @@ class _BudgetFormScreenState extends State<BudgetFormScreen> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text('Cancel'),
+                    child: Text(l10n.cancel),
                   ),
                   const SizedBox(width: 10),
-                  ElevatedButton(onPressed: _save, child: const Text('Save')),
+                  ElevatedButton(onPressed: _save, child: Text(l10n.save)),
                 ],
               ),
             ],
