@@ -23,10 +23,10 @@ class CurrencySwitcher extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Text(
           symbol,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimary,
           ),
         ),
       ),
