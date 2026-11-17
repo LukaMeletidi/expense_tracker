@@ -16,7 +16,6 @@ class AppTheme {
       appBarTheme: AppBarTheme(
         backgroundColor: colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
-        centerTitle: true,
         titleTextStyle: TextStyle(
           color: colorScheme.onPrimary,
           fontSize: 22,
