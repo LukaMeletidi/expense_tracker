@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/providers/categories_provider.dart';
+import 'package:expense_tracker/providers/currency_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -80,6 +81,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final symbol = ref.watch(currencySymbolProvider);
     final categories = ref.watch(categoriesProvider).value ?? [];
     final items = categories
         .where((c) => !c.isDeleted || c.id == _selectedCategoryId)
@@ -107,9 +109,9 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                 },
               ),
               TextFormField(
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Amount',
-                  prefixText: '\$ ',
+                  prefixText: '$symbol ',
                 ),
                 controller: _amountController,
                 keyboardType: const TextInputType.numberWithOptions(

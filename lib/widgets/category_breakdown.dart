@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/providers/categories_provider.dart';
+import 'package:expense_tracker/providers/currency_provider.dart';
 import 'package:expense_tracker/providers/period_provider.dart';
 import 'package:expense_tracker/utils/format.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -11,6 +12,7 @@ class CategoryBreakdown extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final symbol = ref.watch(currencySymbolProvider);
     final totals = ref.watch(categoryTotalsProvider);
     final total = ref.watch(periodTotalProvider);
     final categories = ref.watch(categoriesByIdProvider);
@@ -60,7 +62,7 @@ class CategoryBreakdown extends ConsumerWidget {
                     ),
                     Center(
                       child: Text(
-                        formatCents(total),
+                        formatCents(total, symbol),
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
@@ -81,7 +83,7 @@ class CategoryBreakdown extends ConsumerWidget {
                           const SizedBox(width: 20),
                           Expanded(child: Text(categoryOf(entry.key).name)),
                           const SizedBox(width: 20),
-                          Text(formatCents(entry.value)),
+                          Text(formatCents(entry.value, symbol)),
                         ],
                       ),
                       const SizedBox(height: 10),

@@ -1,6 +1,7 @@
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/providers/categories_provider.dart';
+import 'package:expense_tracker/providers/currency_provider.dart';
 import 'package:expense_tracker/providers/period_provider.dart';
 import 'package:expense_tracker/screens/category_form_screen.dart';
 import 'package:expense_tracker/utils/format.dart';
@@ -18,6 +19,7 @@ class CategoryDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final symbol = ref.watch(currencySymbolProvider);
     final category = ref.watch(categoriesByIdProvider)[categoryId];
     if (category == null) return const Scaffold();
     final expensesAsync = ref.watch(categoryExpensesProvider(categoryId));
@@ -67,7 +69,7 @@ class CategoryDetailScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      formatCents(total),
+                      formatCents(total, symbol),
                       style: Theme.of(context).textTheme.headlineMedium
                           ?.copyWith(
                             color: category.color,

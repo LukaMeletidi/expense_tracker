@@ -1,10 +1,12 @@
 import 'package:expense_tracker/models/budget.dart';
 import 'package:expense_tracker/models/budget_progress.dart';
 import 'package:expense_tracker/models/category.dart';
+import 'package:expense_tracker/providers/currency_provider.dart';
 import 'package:expense_tracker/utils/format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BudgetItem extends StatelessWidget {
+class BudgetItem extends ConsumerWidget {
   const BudgetItem({
     super.key,
     required this.category,
@@ -19,7 +21,8 @@ class BudgetItem extends StatelessWidget {
   final void Function() onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final symbol = ref.watch(currencySymbolProvider);
     final progress = BudgetProgress(
       spentCents: spentCents,
       limitCents: budget.limitCents,
@@ -47,7 +50,7 @@ class BudgetItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${formatCents(spentCents)} of ${formatCents(budget.limitCents)}',
+                    '${formatCents(spentCents, symbol)} of ${formatCents(budget.limitCents, symbol)}',
                   ),
                 ],
               ),
@@ -61,8 +64,8 @@ class BudgetItem extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 progress.isOver
-                    ? '${formatCents(-progress.remainingCents)} over'
-                    : '${formatCents(progress.remainingCents)} left',
+                    ? '${formatCents(-progress.remainingCents, symbol)} over'
+                    : '${formatCents(progress.remainingCents, symbol)} left',
                 style: TextStyle(color: progress.isOver ? scheme.error : null),
               ),
             ],

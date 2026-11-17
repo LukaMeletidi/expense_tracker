@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/providers/categories_provider.dart';
+import 'package:expense_tracker/providers/currency_provider.dart';
 import 'package:expense_tracker/utils/format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +13,7 @@ class ExpenseItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final symbol = ref.watch(currencySymbolProvider);
     final category = ref.watch(categoriesByIdProvider)[expense.categoryId];
 
     return Card(
@@ -36,7 +38,7 @@ class ExpenseItem extends ConsumerWidget {
                 ),
               ),
               const SizedBox(width: 20),
-              Text(formatCents(expense.amountCents)),
+              Text(formatCents(expense.amountCents, symbol)),
             ],
           ),
         ),
