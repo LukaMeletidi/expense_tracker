@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/utils/category_colors.dart';
 import 'package:expense_tracker/utils/category_icons.dart';
@@ -48,9 +49,13 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.category == null ? 'New Category' : 'Edit Category'),
+        title: Text(
+          widget.category == null ? l10n.newCategory : l10n.editCategory,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -72,16 +77,16 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
               TextFormField(
                 controller: _nameController,
                 maxLength: 20,
-                decoration: const InputDecoration(labelText: 'Name'),
+                decoration: InputDecoration(labelText: l10n.name),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Please enter a name';
+                    return l10n.enterName;
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 20),
-              Text('Icon', style: Theme.of(context).textTheme.titleSmall),
+              Text(l10n.icon, style: Theme.of(context).textTheme.titleSmall),
               const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
@@ -98,7 +103,7 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
                     .toList(),
               ),
               const SizedBox(height: 20),
-              Text('Color', style: Theme.of(context).textTheme.titleSmall),
+              Text(l10n.color, style: Theme.of(context).textTheme.titleSmall),
               const SizedBox(height: 8),
               Wrap(
                 spacing: 12,
@@ -129,9 +134,9 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text('Cancel'),
+                    child: Text(l10n.cancel),
                   ),
-                  TextButton(onPressed: _save, child: const Text('Save')),
+                  TextButton(onPressed: _save, child: Text(l10n.save)),
                 ],
               ),
             ],

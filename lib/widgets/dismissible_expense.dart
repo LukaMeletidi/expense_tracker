@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/providers/expenses_provider.dart';
 import 'package:expense_tracker/screens/add_expense_screen.dart';
@@ -12,6 +13,8 @@ class DismissibleExpense extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Dismissible(
       key: ValueKey(expense.id),
       direction: DismissDirection.endToStart,
@@ -32,11 +35,11 @@ class DismissibleExpense extends ConsumerWidget {
         messenger.clearSnackBars();
         messenger.showSnackBar(
           SnackBar(
-            content: const Text('Expense deleted'),
+            content: Text(l10n.expenseDeleted),
             persist: false,
             duration: const Duration(seconds: 4),
             action: SnackBarAction(
-              label: 'Undo',
+              label: l10n.undo,
               onPressed: () => notifier.addExpense(expense),
             ),
           ),

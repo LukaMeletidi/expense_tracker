@@ -63,6 +63,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildSearchResults() {
+    final l10n = AppLocalizations.of(context)!;
     final allAsync = ref.watch(expensesProvider);
     return allAsync.when(
       error: (error, stack) => Center(child: Text('Error $error')),
@@ -70,7 +71,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       data: (all) {
         final results = filterByTitle(all, _query);
         if (results.isEmpty) {
-          return const Center(child: Text('No expenses found'));
+          return Center(child: Text(l10n.noExpensesFound));
         }
         final items = flattenByDate(results);
         return ListView.builder(
@@ -92,9 +93,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.appTitle),
+        title: Text(l10n.appTitle),
         actions: const [LanguageSwitcher(), CurrencySwitcher()],
       ),
       body: Column(
@@ -103,7 +106,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: SearchBar(
               controller: _searchController,
-              hintText: AppLocalizations.of(context)!.searchByName,
+              hintText: l10n.searchByName,
               leading: const Icon(Icons.search),
               trailing: [
                 if (_query.isNotEmpty)

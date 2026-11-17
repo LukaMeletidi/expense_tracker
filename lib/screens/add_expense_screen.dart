@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/providers/categories_provider.dart';
 import 'package:expense_tracker/providers/currency_provider.dart';
@@ -81,6 +82,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final symbol = ref.watch(currencySymbolProvider);
     final categories = ref.watch(categoriesProvider).value ?? [];
     final items = categories
@@ -89,7 +91,9 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.expense == null ? 'Add Expense' : 'Edit Expense'),
+        title: Text(
+          widget.expense == null ? l10n.addExpense : l10n.editExpense,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -100,17 +104,17 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
               TextFormField(
                 controller: _titleController,
                 maxLength: 50,
-                decoration: const InputDecoration(labelText: 'Title'),
+                decoration: InputDecoration(labelText: l10n.title),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Please enter a title';
+                    return l10n.enterTitle;
                   }
                   return null;
                 },
               ),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Amount',
+                  labelText: l10n.amount,
                   prefixText: '$symbol ',
                 ),
                 controller: _amountController,
@@ -120,7 +124,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                 validator: (value) {
                   final amount = _parseAmount(value);
                   if (amount == null || amount <= 0) {
-                    return 'Please enter the valid amount';
+                    return l10n.enterValidAmount;
                   }
                   return null;
                 },
@@ -137,9 +141,9 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                   Expanded(
                     child: DropdownButtonFormField<int>(
                       initialValue: _selectedCategoryId,
-                      hint: const Text('Category'),
+                      hint: Text(l10n.category),
                       validator: (value) =>
-                          value == null ? 'Select a category' : null,
+                          value == null ? l10n.selectCategory : null,
                       items: items
                           .map(
                             (category) => DropdownMenuItem<int>(
@@ -174,12 +178,12 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text('Cancel'),
+                    child: Text(l10n.cancel),
                   ),
                   const SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: _saveExpense,
-                    child: const Text('Save'),
+                    child: Text(l10n.save),
                   ),
                 ],
               ),

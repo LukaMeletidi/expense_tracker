@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/providers/categories_provider.dart';
 import 'package:expense_tracker/screens/category_detail_screen.dart';
@@ -10,10 +11,11 @@ class CategoriesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final categoriesAsync = ref.watch(activeCategoriesProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Categories')),
+      appBar: AppBar(title: Text(l10n.navCategories)),
       body: categoriesAsync.when(
         error: (error, stack) => Center(child: Text('Error $error')),
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -36,11 +38,9 @@ class CategoriesScreen extends ConsumerWidget {
               ),
               confirmDismiss: (direction) async {
                 if (categories.length <= 1) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('You need at least one category'),
-                    ),
-                  );
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(l10n.needOneCategory)));
                   return false;
                 }
                 return true;
@@ -52,11 +52,11 @@ class CategoriesScreen extends ConsumerWidget {
                 messenger.clearSnackBars();
                 messenger.showSnackBar(
                   SnackBar(
-                    content: const Text('Category deleted'),
+                    content: Text(l10n.categoryDeleted),
                     persist: false,
                     duration: const Duration(seconds: 4),
                     action: SnackBarAction(
-                      label: 'Undo',
+                      label: l10n.undo,
                       onPressed: () => notifier.updateCategory(
                         category.copyWith(isDeleted: false),
                       ),

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/providers/currency_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,10 +8,11 @@ class CurrencySwitcher extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final symbol = ref.watch(currencySymbolProvider);
 
     return PopupMenuButton<String>(
-      tooltip: 'Currency',
+      tooltip: l10n.currency,
       initialValue: symbol,
       onSelected: (value) =>
           ref.read(currencySettingProvider.notifier).setSymbol(value),

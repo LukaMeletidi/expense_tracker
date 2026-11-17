@@ -19,7 +19,7 @@ class BudgetsScreen extends ConsumerWidget {
     final spent = ref.watch(monthSpentProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Budgets')),
+      appBar: AppBar(title: Text(l10n.navBudgets)),
       body: budgetAsync.when(
         error: (error, stack) => Center(child: Text('Error $error')),
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -28,13 +28,10 @@ class BudgetsScreen extends ConsumerWidget {
               .where((b) => categoriesById[b.categoryId]?.isDeleted == false)
               .toList();
           if (visible.isEmpty) {
-            return const Center(
+            return Center(
               child: Padding(
-                padding: EdgeInsets.all(32),
-                child: Text(
-                  'No budgets yet.\nTap + to set a monthly limit for a category',
-                  textAlign: TextAlign.center,
-                ),
+                padding: const EdgeInsets.all(32),
+                child: Text(l10n.noBudgetsYet, textAlign: TextAlign.center),
               ),
             );
           }
@@ -80,11 +77,11 @@ class BudgetsScreen extends ConsumerWidget {
                   messenger.clearSnackBars();
                   messenger.showSnackBar(
                     SnackBar(
-                      content: const Text('Budget deleted'),
+                      content: Text(l10n.budgetDeleted),
                       persist: false,
                       duration: const Duration(seconds: 4),
                       action: SnackBarAction(
-                        label: 'Undo',
+                        label: l10n.undo,
                         onPressed: () => notifier.addBudget(budget),
                       ),
                     ),
@@ -123,8 +120,8 @@ class BudgetsScreen extends ConsumerWidget {
               .toList();
           if (available.isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('All categories already have a budget'),
+              SnackBar(
+                content: Text(l10n.allCategoriesHaveBudget),
                 persist: false,
               ),
             );
