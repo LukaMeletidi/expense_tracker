@@ -103,7 +103,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: SearchBar(
               controller: _searchController,
-              hintText: 'Search by name',
+              hintText: AppLocalizations.of(context)!.searchByName,
               leading: const Icon(Icons.search),
               trailing: [
                 if (_query.isNotEmpty)

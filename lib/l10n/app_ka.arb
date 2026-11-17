@@ -1,3 +1,7 @@
 {
-  "appTitle": "ხარჯების აღრიცხვა"
+  "appTitle": "ხარჯების აღრიცხვა",
+  "navExpenses": "ხარჯები",
+  "navCategories": "კატეგორიები",
+  "navBudgets": "ბიუჯეტი",
+  "searchByName": "ძებნა სახელით"
 }

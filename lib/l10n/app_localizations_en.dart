@@ -11,4 +11,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appTitle => 'Expense Tracker';
+
+  @override
+  String get navExpenses => 'Expenses';
+
+  @override
+  String get navCategories => 'Categories';
+
+  @override
+  String get navBudgets => 'Budgets';
+
+  @override
+  String get searchByName => 'Search by name';
 }

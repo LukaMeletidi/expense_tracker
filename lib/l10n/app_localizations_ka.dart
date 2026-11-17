@@ -11,4 +11,16 @@ class AppLocalizationsKa extends AppLocalizations {
 
   @override
   String get appTitle => 'ხარჯების აღრიცხვა';
+
+  @override
+  String get navExpenses => 'ხარჯები';
+
+  @override
+  String get navCategories => 'კატეგორიები';
+
+  @override
+  String get navBudgets => 'ბიუჯეტი';
+
+  @override
+  String get searchByName => 'ძებნა სახელით';
 }

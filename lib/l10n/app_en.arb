@@ -1,3 +1,7 @@
 {
-  "appTitle": "Expense Tracker"
+  "appTitle": "Expense Tracker",
+  "navExpenses": "Expenses",
+  "navCategories": "Categories",
+  "navBudgets": "Budgets",
+  "searchByName": "Search by name"
 }
