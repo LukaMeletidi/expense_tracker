@@ -52,13 +52,14 @@ class Period {
   bool get canGoNext => !end.isAfter(DateTime.now());
   bool contains(DateTime date) => !date.isBefore(start) && date.isBefore(end);
 
-  String get label {
+  String label (String locale) {
     final s = start;
+    final shortFormat = DateFormat('d MMM', locale);
     return switch (type) {
-      PeriodType.day => DateFormat('d MMM yyyy').format(s),
+      PeriodType.day => DateFormat('d MMM yyyy', locale).format(s),
       PeriodType.week =>
-        '${DateFormat('d MMM').format(s)} - ${DateFormat('d MMM').format(DateTime(s.year, s.month, s.day + 6))}',
-      PeriodType.month => DateFormat('MMMM yyyy').format(s),
+        '${shortFormat.format(s)} - ${shortFormat.format(DateTime(s.year, s.month, s.day + 6))}',
+      PeriodType.month => DateFormat('MMMM yyyy', locale).format(s),
       PeriodType.year => '${s.year}',
     };
   }

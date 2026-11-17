@@ -39,7 +39,7 @@ class PeriodSelector extends ConsumerWidget {
               onPressed: notifier.previous,
               icon: const Icon(Icons.chevron_left),
             ),
-            Text(period.label, style: Theme.of(context).textTheme.titleMedium),
+            Text(period.label(l10n.localeName), style: Theme.of(context).textTheme.titleMedium),
             IconButton(
               onPressed: period.canGoNext ? notifier.next : null,
               icon: const Icon(Icons.chevron_right),

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/budget.dart';
 import 'package:expense_tracker/models/period.dart';
 import 'package:expense_tracker/providers/budgets_provider.dart';
@@ -12,6 +13,7 @@ class BudgetsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final budgetAsync = ref.watch(budgetsProvider);
     final categoriesById = ref.watch(categoriesByIdProvider);
     final spent = ref.watch(monthSpentProvider);
@@ -44,7 +46,7 @@ class BudgetsScreen extends ConsumerWidget {
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
                   child: Text(
-                    Period.current(PeriodType.month).label,
+                    Period.current(PeriodType.month).label(l10n.localeName),
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                 );
