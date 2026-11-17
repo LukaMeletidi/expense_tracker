@@ -1,4 +1,5 @@
 
-String formatCents(int cents) {
-  return '${(cents / 100).toStringAsFixed(2)} \$';
+String formatCents(int cents, String symbol) {
+  return '${(cents / 100).toStringAsFixed(2)} $symbol';
 }
+

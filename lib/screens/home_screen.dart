@@ -4,6 +4,7 @@ import 'package:expense_tracker/providers/period_provider.dart';
 import 'package:expense_tracker/screens/add_expense_screen.dart';
 import 'package:expense_tracker/utils/filter_expenses.dart';
 import 'package:expense_tracker/utils/group_by_date.dart';
+import 'package:expense_tracker/widgets/currency_switcher.dart';
 import 'package:expense_tracker/widgets/day_header.dart';
 import 'package:expense_tracker/widgets/dismissible_expense.dart';
 import 'package:expense_tracker/widgets/period_selector.dart';
@@ -90,7 +91,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Expense Tracker')),
+      appBar: AppBar(
+        title: const Text('Expense Tracker'),
+        actions: const [CurrencySwitcher()],
+      ),
       body: Column(
         children: [
           Padding(
