@@ -137,10 +137,16 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                     onPressed: _pickDate,
                     icon: const Icon(Icons.calendar_month),
                   ),
-                  Text(DateFormat('d MMM y').format(_selectedDate)),
-                  const SizedBox(width: 40),
+                  Text(
+                    DateFormat(
+                      'd MMM y',
+                      l10n.localeName,
+                    ).format(_selectedDate),
+                  ),
+                  const SizedBox(width: 30),
                   Expanded(
                     child: DropdownButtonFormField<int>(
+                      isExpanded: true,
                       initialValue: _selectedCategoryId,
                       hint: Text(l10n.category),
                       validator: (value) =>
@@ -153,7 +159,12 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                                 children: [
                                   Icon(category.icon, color: category.color),
                                   const SizedBox(width: 4),
-                                  Text(categoryName(category, l10n)),
+                                  Flexible(
+                                    child: Text(
+                                      categoryName(category, l10n),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
