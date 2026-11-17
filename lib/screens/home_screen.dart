@@ -32,9 +32,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildMainList() {
+    final l10n = AppLocalizations.of(context)!;
     final expensesAsync = ref.watch(periodExpensesProvider);
     return expensesAsync.when(
-      error: (error, stack) => Center(child: Text('Error $error')),
+      error: (error, stack) => Center(child: Text(l10n.errorMessage('$error'))),
       loading: () => const Center(child: CircularProgressIndicator()),
       data: (expenses) {
         final items = flattenByDate(expenses);
@@ -66,7 +67,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final l10n = AppLocalizations.of(context)!;
     final allAsync = ref.watch(expensesProvider);
     return allAsync.when(
-      error: (error, stack) => Center(child: Text('Error $error')),
+      error: (error, stack) => Center(child: Text(l10n.errorMessage('$error'))),
       loading: () => const Center(child: CircularProgressIndicator()),
       data: (all) {
         final results = filterByTitle(all, _query);

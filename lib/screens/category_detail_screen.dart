@@ -47,7 +47,8 @@ class CategoryDetailScreen extends ConsumerWidget {
         ],
       ),
       body: expensesAsync.when(
-        error: (error, stack) => Center(child: Text('Error $error')),
+        error: (error, stack) =>
+            Center(child: Text(l10n.errorMessage('$error'))),
         loading: () => const Center(child: CircularProgressIndicator()),
         data: (expenses) {
           final items = flattenByDate(expenses);

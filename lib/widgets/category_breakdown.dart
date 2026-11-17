@@ -18,8 +18,8 @@ class CategoryBreakdown extends ConsumerWidget {
     final totals = ref.watch(categoryTotalsProvider);
     final total = ref.watch(periodTotalProvider);
     final categories = ref.watch(categoriesByIdProvider);
-    const unknown = Category(
-      name: 'Unknown',
+    final unknown = Category(
+      name: l10n.unknownCategory,
       iconKey: 'other',
       colorValue: 0xFF9E9E9E,
     );

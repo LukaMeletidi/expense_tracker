@@ -21,7 +21,8 @@ class BudgetsScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.navBudgets)),
       body: budgetAsync.when(
-        error: (error, stack) => Center(child: Text('Error $error')),
+        error: (error, stack) =>
+            Center(child: Text(l10n.errorMessage('$error'))),
         loading: () => const Center(child: CircularProgressIndicator()),
         data: (budgets) {
           final visible = budgets

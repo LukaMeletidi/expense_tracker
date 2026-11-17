@@ -38,5 +38,33 @@
   "categoryDeleted": "Category deleted",
   "expenseDeleted": "Expense deleted",
   "noExpensesFound": "No expenses found",
-  "noExpensesInPeriod": "No expenses in this period"
+  "noExpensesInPeriod": "No expenses in this period",
+  "errorMessage": "Error: {message}",
+  "@errorMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "unknownCategory": "Unknown",
+  "budgetSpentOf": "{spent} of {limit}",
+  "@budgetSpentOf": {
+    "placeholders": {
+      "spent": { "type": "String" },
+      "limit": { "type": "String" }
+    }
+  },
+  "budgetLeft": "{amount} left",
+  "@budgetLeft": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "budgetOver": "{amount} over",
+  "@budgetOver": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  }
 }

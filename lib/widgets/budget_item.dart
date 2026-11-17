@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/budget.dart';
 import 'package:expense_tracker/models/budget_progress.dart';
 import 'package:expense_tracker/models/category.dart';
@@ -22,6 +23,7 @@ class BudgetItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final symbol = ref.watch(currencySymbolProvider);
     final progress = BudgetProgress(
       spentCents: spentCents,
@@ -50,7 +52,10 @@ class BudgetItem extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    '${formatCents(spentCents, symbol)} of ${formatCents(budget.limitCents, symbol)}',
+                    l10n.budgetSpentOf(
+                      formatCents(spentCents, symbol),
+                      formatCents(budget.limitCents, symbol),
+                    ),
                   ),
                 ],
               ),
@@ -64,8 +69,12 @@ class BudgetItem extends ConsumerWidget {
               const SizedBox(height: 8),
               Text(
                 progress.isOver
-                    ? '${formatCents(-progress.remainingCents, symbol)} over'
-                    : '${formatCents(progress.remainingCents, symbol)} left',
+                    ? l10n.budgetOver(
+                        formatCents(-progress.remainingCents, symbol),
+                      )
+                    : l10n.budgetLeft(
+                        formatCents(progress.remainingCents, symbol),
+                      ),
                 style: TextStyle(color: progress.isOver ? scheme.error : null),
               ),
             ],

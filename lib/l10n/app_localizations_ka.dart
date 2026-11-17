@@ -129,4 +129,27 @@ class AppLocalizationsKa extends AppLocalizations {
 
   @override
   String get noExpensesInPeriod => 'ამ პერიოდში ხარჯები არ არის';
+
+  @override
+  String errorMessage(String message) {
+    return 'შეცდომა: $message';
+  }
+
+  @override
+  String get unknownCategory => 'უცნობი';
+
+  @override
+  String budgetSpentOf(String spent, String limit) {
+    return '$spent / $limit';
+  }
+
+  @override
+  String budgetLeft(String amount) {
+    return 'დარჩენილია $amount';
+  }
+
+  @override
+  String budgetOver(String amount) {
+    return 'გადაჭარბებულია $amount';
+  }
 }

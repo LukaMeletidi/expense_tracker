@@ -337,6 +337,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No expenses in this period'**
   String get noExpensesInPeriod;
+
+  /// No description provided for @errorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {message}'**
+  String errorMessage(String message);
+
+  /// No description provided for @unknownCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknownCategory;
+
+  /// No description provided for @budgetSpentOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{spent} of {limit}'**
+  String budgetSpentOf(String spent, String limit);
+
+  /// No description provided for @budgetLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} left'**
+  String budgetLeft(String amount);
+
+  /// No description provided for @budgetOver.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} over'**
+  String budgetOver(String amount);
 }
 
 class _AppLocalizationsDelegate

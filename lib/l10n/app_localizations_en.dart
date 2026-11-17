@@ -129,4 +129,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noExpensesInPeriod => 'No expenses in this period';
+
+  @override
+  String errorMessage(String message) {
+    return 'Error: $message';
+  }
+
+  @override
+  String get unknownCategory => 'Unknown';
+
+  @override
+  String budgetSpentOf(String spent, String limit) {
+    return '$spent of $limit';
+  }
+
+  @override
+  String budgetLeft(String amount) {
+    return '$amount left';
+  }
+
+  @override
+  String budgetOver(String amount) {
+    return '$amount over';
+  }
 }

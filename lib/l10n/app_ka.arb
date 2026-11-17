@@ -38,5 +38,10 @@
   "categoryDeleted": "კატეგორია წაიშალა",
   "expenseDeleted": "ხარჯი წაიშალა",
   "noExpensesFound": "ხარჯები ვერ მოიძებნა",
-  "noExpensesInPeriod": "ამ პერიოდში ხარჯები არ არის"
+  "noExpensesInPeriod": "ამ პერიოდში ხარჯები არ არის",
+  "errorMessage": "შეცდომა: {message}",
+  "unknownCategory": "უცნობი",
+  "budgetSpentOf": "{spent} / {limit}",
+  "budgetLeft": "დარჩენილია {amount}",
+  "budgetOver": "გადაჭარბებულია {amount}"
 }

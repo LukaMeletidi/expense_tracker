@@ -17,7 +17,8 @@ class CategoriesScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.navCategories)),
       body: categoriesAsync.when(
-        error: (error, stack) => Center(child: Text('Error $error')),
+        error: (error, stack) =>
+            Center(child: Text(l10n.errorMessage('$error'))),
         loading: () => const Center(child: CircularProgressIndicator()),
         data: (categories) => ListView.builder(
           padding: const EdgeInsets.only(bottom: 80),
