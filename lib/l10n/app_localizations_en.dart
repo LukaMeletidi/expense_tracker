@@ -35,4 +35,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get periodYear => 'Year';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get yesterday => 'Yesterday';
 }

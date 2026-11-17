@@ -7,5 +7,7 @@
   "periodDay": "დღე",
   "periodWeek": "კვირა",
   "periodMonth": "თვე",
-  "periodYear": "წელი"
+  "periodYear": "წელი",
+  "today": "დღეს",
+  "yesterday": "გუშინ"
 }

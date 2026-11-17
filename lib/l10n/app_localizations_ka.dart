@@ -35,4 +35,10 @@ class AppLocalizationsKa extends AppLocalizations {
 
   @override
   String get periodYear => 'წელი';
+
+  @override
+  String get today => 'დღეს';
+
+  @override
+  String get yesterday => 'გუშინ';
 }

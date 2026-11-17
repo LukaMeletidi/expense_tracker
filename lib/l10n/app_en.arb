@@ -7,5 +7,7 @@
   "periodDay": "Day",
   "periodWeek": "Week",
   "periodMonth": "Month",
-  "periodYear": "Year"
+  "periodYear": "Year",
+  "today": "Today",
+  "yesterday": "Yesterday"
 }
