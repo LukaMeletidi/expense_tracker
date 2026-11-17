@@ -367,6 +367,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{amount} over'**
   String budgetOver(String amount);
+
+  /// No description provided for @categoryFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get categoryFood;
+
+  /// No description provided for @categoryTransport.
+  ///
+  /// In en, this message translates to:
+  /// **'Transport'**
+  String get categoryTransport;
+
+  /// No description provided for @categoryShopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping'**
+  String get categoryShopping;
+
+  /// No description provided for @categoryHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get categoryHealth;
+
+  /// No description provided for @categorySport.
+  ///
+  /// In en, this message translates to:
+  /// **'Sport'**
+  String get categorySport;
+
+  /// No description provided for @categoryEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get categoryEducation;
+
+  /// No description provided for @categoryEntertainment.
+  ///
+  /// In en, this message translates to:
+  /// **'Entertainment'**
+  String get categoryEntertainment;
+
+  /// No description provided for @categoryCafe.
+  ///
+  /// In en, this message translates to:
+  /// **'Cafe'**
+  String get categoryCafe;
+
+  /// No description provided for @categoryHouseneeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Houseneeds'**
+  String get categoryHouseneeds;
+
+  /// No description provided for @categoryBills.
+  ///
+  /// In en, this message translates to:
+  /// **'Bills'**
+  String get categoryBills;
+
+  /// No description provided for @categoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get categoryOther;
 }
 
 class _AppLocalizationsDelegate

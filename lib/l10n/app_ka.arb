@@ -43,5 +43,16 @@
   "unknownCategory": "უცნობი",
   "budgetSpentOf": "{spent} / {limit}",
   "budgetLeft": "დარჩენილია {amount}",
-  "budgetOver": "გადაჭარბებულია {amount}"
+  "budgetOver": "გადაჭარბებულია {amount}",
+  "categoryFood": "საკვები",
+  "categoryTransport": "ტრანსპორტი",
+  "categoryShopping": "შოპინგი",
+  "categoryHealth": "ჯანმრთელობა",
+  "categorySport": "სპორტი",
+  "categoryEducation": "განათლება",
+  "categoryEntertainment": "გართობა",
+  "categoryCafe": "კაფე",
+  "categoryHouseneeds": "საყოფაცხოვრებო",
+  "categoryBills": "გადასახადები",
+  "categoryOther": "სხვა"
 }

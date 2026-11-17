@@ -152,4 +152,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String budgetOver(String amount) {
     return '$amount over';
   }
+
+  @override
+  String get categoryFood => 'Food';
+
+  @override
+  String get categoryTransport => 'Transport';
+
+  @override
+  String get categoryShopping => 'Shopping';
+
+  @override
+  String get categoryHealth => 'Health';
+
+  @override
+  String get categorySport => 'Sport';
+
+  @override
+  String get categoryEducation => 'Education';
+
+  @override
+  String get categoryEntertainment => 'Entertainment';
+
+  @override
+  String get categoryCafe => 'Cafe';
+
+  @override
+  String get categoryHouseneeds => 'Houseneeds';
+
+  @override
+  String get categoryBills => 'Bills';
+
+  @override
+  String get categoryOther => 'Other';
 }
