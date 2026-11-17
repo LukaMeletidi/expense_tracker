@@ -8,6 +8,7 @@ import 'package:expense_tracker/utils/group_by_date.dart';
 import 'package:expense_tracker/widgets/currency_switcher.dart';
 import 'package:expense_tracker/widgets/day_header.dart';
 import 'package:expense_tracker/widgets/dismissible_expense.dart';
+import 'package:expense_tracker/widgets/language_switcher.dart';
 import 'package:expense_tracker/widgets/period_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -94,7 +95,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.appTitle),
-        actions: const [CurrencySwitcher()],
+        actions: const [LanguageSwitcher(), CurrencySwitcher()],
       ),
       body: Column(
         children: [
