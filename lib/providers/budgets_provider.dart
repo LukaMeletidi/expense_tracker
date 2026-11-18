@@ -24,6 +24,7 @@ class BudgetsNotifier extends AsyncNotifier<List<Budget>> {
     state = AsyncData(
       current.map((b) => b.id == budget.id ? budget : b).toList(),
     );
+    await ExpensesDatabase.updateBudget(budget);
   }
 
   Future<void> removeBudget(int id) async {
